@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/popover"
 import Image from "next/image";
 import Link from "next/link";
+import { ThemeToggler } from "./ThemeToggler";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -105,9 +106,7 @@ export default function Navbar() {
         </div>
         {/* Right side */}
         <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="sm" className="text-sm">
-            <a href="#">Sign In</a>
-          </Button>
+          <ThemeToggler />
           <Link href="/login" className="hover:underline text-sm">Login</Link>
         </div>
       </div>
