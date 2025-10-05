@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
   NavigationMenu,
@@ -13,6 +15,10 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { ThemeToggler } from "./ThemeToggler";
+import { useUser } from "@/contexts/UserContext";
+import { usePathname } from "next/navigation";
+import { LogOut } from "lucide-react";
+import NavLoading from "./NavLoading";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -25,6 +31,14 @@ const navigationLinks = [
 ];
 
 export default function Navbar() {
+
+  const {user, loading} = useUser();
+  const location = usePathname();
+
+  if (loading) {
+    return <NavLoading/>;
+  };
+  
   return (
     <header className="w-11/12 md:w-10/12 mx-auto my-2 bg-foreground dark:bg-black text-white border-b rounded-xl px-4 md:px-6 sticky top-0 z-10 backdrop-blur-md">
       <div className="flex h-16 justify-between gap-4">
@@ -66,16 +80,28 @@ export default function Navbar() {
                 <NavigationMenu className="max-w-none *:w-full">
                   <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                     {navigationLinks.map((link, index) => (
+                      link.role === 'PUBLIC' &&
                       <NavigationMenuItem key={index} className="w-full">
                         <NavigationMenuLink
                           href={link.href}
                           className="py-1.5"
-                          active={link.href==="/about"}
+                          active={link.href === location}
                         >
                           {link.label}
                         </NavigationMenuLink>
                       </NavigationMenuItem>
                     ))}
+                    {user?.email &&
+                      <NavigationMenuItem className="w-full">
+                        <NavigationMenuLink
+                          href="/dashboard"
+                          className="py-1.5"
+                          active={location === "/dashboard"}
+                        >
+                          Manage
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    }
                   </NavigationMenuList>
                 </NavigationMenu>
               </PopoverContent>
@@ -91,9 +117,10 @@ export default function Navbar() {
           <NavigationMenu className="h-full *:h-full max-md:hidden">
             <NavigationMenuList className="h-full gap-2">
               {navigationLinks.map((link, index) => (
+                link.role === "PUBLIC" &&
                 <NavigationMenuItem key={index} className="h-full">
                   <NavigationMenuLink
-                    active={link.href === "/about"}
+                    active={link.href === location}
                     href={link.href}
                     className="text-bg hover:text-portfolio border-b-portfolio hover:border-b-portfolio data-[active]:border-b-portfolio h-full justify-center rounded-none border-y-2 border-transparent py-1.5 font-medium hover:bg-transparent data-[active]:bg-transparent!"
                   >
@@ -101,13 +128,28 @@ export default function Navbar() {
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
+              {user?.email &&
+                <NavigationMenuItem className="w-full">
+                  <NavigationMenuLink
+                    href="/dashboard"
+                    className="py-1.5"
+                    active={location === "/dashboard"}
+                  >
+                    Manage
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              }
             </NavigationMenuList>
           </NavigationMenu>
         </div>
         {/* Right side */}
         <div className="flex items-center gap-2">
           <ThemeToggler />
-          <Link href="/login" className="hover:underline text-sm">Login</Link>
+          {
+            !user?.email ?
+              <Link href="/login" className="hover:underline text-sm">Login</Link> :
+              <LogOut/>
+          }
         </div>
       </div>
     </header>
