@@ -85,7 +85,7 @@ export default function Navbar() {
                         <NavigationMenuLink
                           href={link.href}
                           className="py-1.5"
-                          active={link.href === location}
+                          active={link.href === "/" ? location === "/" : location.startsWith(link.href)}
                         >
                           {link.label}
                         </NavigationMenuLink>
@@ -96,7 +96,7 @@ export default function Navbar() {
                         <NavigationMenuLink
                           href="/dashboard"
                           className="py-1.5"
-                          active={location === "/dashboard"}
+                          active={location.startsWith("/dashboard")}
                         >
                           Manage
                         </NavigationMenuLink>
@@ -120,9 +120,9 @@ export default function Navbar() {
                 link.role === "PUBLIC" &&
                 <NavigationMenuItem key={index} className="h-full">
                   <NavigationMenuLink
-                    active={link.href === location}
                     href={link.href}
                     className="text-bg hover:text-portfolio border-b-portfolio hover:border-b-portfolio data-[active]:border-b-portfolio h-full justify-center rounded-none border-y-2 border-transparent py-1.5 font-medium hover:bg-transparent data-[active]:bg-transparent!"
+                    active={link.href==="/" ? location==="/" : location.startsWith(link.href)}
                   >
                     {link.label}
                   </NavigationMenuLink>
@@ -133,7 +133,7 @@ export default function Navbar() {
                   <NavigationMenuLink
                     href="/dashboard"
                     className="py-1.5"
-                    active={location === "/dashboard"}
+                    active={location.startsWith("/dashboard")}
                   >
                     Manage
                   </NavigationMenuLink>
