@@ -52,7 +52,7 @@ export function LoginForm({
       const res = await login(data);
       if (res.success) {
         setUser(res.data.user);
-        router.push("/");
+        router.push("/dashboard");
       };
     } catch (err: any) {
       // if (err.data.message === "Incorrect Password!") {

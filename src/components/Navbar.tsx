@@ -20,14 +20,14 @@ import { usePathname } from "next/navigation";
 import { LogOut } from "lucide-react";
 import NavLoading from "./NavLoading";
 
-// Navigation links array to be used in both desktop and mobile menus
+
 const navigationLinks = [
-  { href: "/", label: "Home", role: "PUBLIC", active: false || true },
-  { href: "/about", label: "About", role: "PUBLIC", active: false || true },
-  { href: "/projects", label: "Projects", role: "PUBLIC", active: false || true },
-  { href: "/blogs", label: "Blogs", role: "PUBLIC", active: false || true },
-  { href: "/contact", label: "Contact", role: "PUBLIC", active: false || true },
-  { href: "/dashboard", label: "Manage", role: "OWNER", active: false || true },
+  { href: "/", label: "Home", role: "PUBLIC" },
+  { href: "/about", label: "About", role: "PUBLIC" },
+  { href: "/projects", label: "Projects", role: "PUBLIC" },
+  { href: "/blogs", label: "Blogs", role: "PUBLIC" },
+  { href: "/contact", label: "Contact", role: "PUBLIC" },
+  { href: "/dashboard", label: "Manage", role: "OWNER" },
 ];
 
 export default function Navbar() {

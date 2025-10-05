@@ -12,3 +12,12 @@ export const login = async (data: FieldValues) => {
 
     return loginInfo;
 };
+
+export const logout = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/logout`, {
+        method: "POST",
+        credentials: "include"
+    });
+
+    return await res.json();
+};
