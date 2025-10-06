@@ -21,6 +21,7 @@ import { login } from "@/actions/auth";
 import { useUser } from "@/contexts/UserContext";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useState } from "react";
 
 
 const loginSchema = z.object({
@@ -33,7 +34,7 @@ export function LoginForm({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -42,24 +43,27 @@ export function LoginForm({
     },
   });
 
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const { setUser } = useUser();
   const router = useRouter();
-  
+
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
-    const toastId = toast.loading("Verifying Credentials...")
+    const toastId = toast.loading("Verifying Credentials...");
+    setSubmitting(true)
     try {
       const res = await login(data);
       if (res.success) {
         setUser(res.data.user);
         toast.success(res.message, { id: toastId });
+        setSubmitting(false);
         router.push("/dashboard");
+      } else {
+        toast.error(res.message, { id: toastId });
+        setSubmitting(false);
       };
     } catch (err: any) {
-      if (err.data.message === "Incorrect Password!") {
-        toast.error("Invalid credentials", { id: toastId });
-      } else {
-        toast.error(err.data.message, { id: toastId });
-      };
+      toast.error(err.data.message, { id: toastId });
+      setSubmitting(false);
     }
   };
 
@@ -113,7 +117,11 @@ export function LoginForm({
             />
 
             <Button type="submit" className="w-full bg-portfolio text-foreground dark:text-background cursor-pointer">
-              Login
+              {
+                submitting ?
+                  <span className="w-3 h-3 border-2 animate-spin flex items-center justify-center border-y-foreground dark:border-y-background border-x-background dark:border-x-foreground rounded-full"></span> :
+                  'Login'
+              }
             </Button>
           </form>
         </Form>

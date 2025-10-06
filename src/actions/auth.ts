@@ -10,11 +10,13 @@ export const login = async (data: FieldValues) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     });
-
+    
     const loginInfo = await res.json();
-    const { token, refreshToken } = loginInfo.data;
-
-    await setTokens(token, refreshToken);
+   
+    if (loginInfo.success) {
+        const { token, refreshToken } = loginInfo.data;
+        await setTokens(token, refreshToken);
+    };
 
     return loginInfo;
 };

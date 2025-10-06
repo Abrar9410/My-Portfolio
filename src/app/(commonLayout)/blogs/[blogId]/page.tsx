@@ -1,9 +1,12 @@
 
 
-const SingleBlogPage = () => {
+const SingleBlogPage = async ({params}: {params: Promise<{blogId: string}>}) => {
+
+    const {blogId} = await params;
+
     return (
         <div>
-            BLOG DETAILS
+            BLOG DETAILS {blogId}
         </div>
     );
 };

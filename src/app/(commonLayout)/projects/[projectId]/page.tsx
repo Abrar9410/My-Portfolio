@@ -1,9 +1,12 @@
 
 
-const SingleProjectPage = () => {
+const SingleProjectPage = async ({params}: {params: Promise<{projectId: string}>}) => {
+
+    const {projectId} = await params;
+
     return (
         <div>
-            PROJECT DETAILS
+            PROJECT DETAILS {projectId}
         </div>
     );
 };

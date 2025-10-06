@@ -18,7 +18,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import ConfirmationAlert from "./ConfirmationAlert";
-import { LogOut } from "lucide-react";
+import { CircleUser, ImagePlus, LogOut, MonitorCog, NotebookPen, NotepadText } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/actions/auth";
@@ -33,22 +33,27 @@ const navMain = [
       {
         title: "Profile",
         url: "/dashboard/profile",
+        icon: <CircleUser className="h-5"/>
       },
       {
         title: "Add Project",
         url: "/dashboard/add-project",
+        icon: <ImagePlus className="h-5"/>
       },
       {
         title: "Create Blog",
         url: "/dashboard/create-blog",
+        icon: <NotebookPen className="h-5"/>
       },
       {
         title: "Manage Projects",
         url: "/dashboard/manage-projects",
+        icon: <MonitorCog className="h-5"/>
       },
       {
         title: "Manage Blogs",
         url: "/dashboard/manage-blogs",
+        icon: <NotepadText className="h-5"/>
       },
     ],
   }
@@ -89,7 +94,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild isActive={item.url === location}>
-                      <Link href={item.url}>{item.title}</Link>
+                      <Link href={item.url}>
+                        <p className={`${item.url === location && "text-portfolio"} flex items-center gap-2`}>
+                          {item.icon}
+                          {item.title}
+                        </p>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}

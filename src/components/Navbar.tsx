@@ -1,24 +1,33 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import Image from "next/image";
 import Link from "next/link";
 import { ThemeToggler } from "./ThemeToggler";
 import { useUser } from "@/contexts/UserContext";
 import { usePathname } from "next/navigation";
-import { LogOut } from "lucide-react";
+import { Home, LogOut } from "lucide-react";
 import NavLoading from "./NavLoading";
+import ConfirmationAlert from "./ConfirmationAlert";
+import { toast } from "sonner";
+import { logout } from "@/actions/auth";
+import { Separator } from "./ui/separator";
 
 
 const navigationLinks = [
@@ -32,13 +41,24 @@ const navigationLinks = [
 
 export default function Navbar() {
 
-  const {user, loading} = useUser();
+  const { user, setUser, loading } = useUser();
   const location = usePathname();
 
-  if (loading) {
-    return <NavLoading/>;
+  const handleLogout = async () => {
+    const toastId = toast.loading("Logging Out...");
+    const res = await logout();
+    if (res.success) {
+      setUser(null);
+      toast.success("Logged Out Successfully", { id: toastId });
+    } else {
+      toast.error("Failed to Logout! Please try again.", { id: toastId });
+    };
   };
-  
+
+  if (loading) {
+    return <NavLoading />;
+  };
+
   return (
     <header className="w-11/12 md:w-10/12 mx-auto my-2 bg-foreground dark:bg-black text-white border-b rounded-xl px-4 md:px-6 sticky top-0 z-10 backdrop-blur-md">
       <div className="flex h-16 justify-between gap-4">
@@ -83,31 +103,20 @@ export default function Navbar() {
                       link.role === 'PUBLIC' &&
                       <NavigationMenuItem key={index} className="w-full">
                         <NavigationMenuLink
-                          href={link.href}
+                          asChild
                           className="py-1.5"
                           active={link.href === "/" ? location === "/" : location.startsWith(link.href)}
                         >
-                          {link.label}
+                          <Link href={link.href}>{link.label}</Link>
                         </NavigationMenuLink>
                       </NavigationMenuItem>
                     ))}
-                    {user?.email &&
-                      <NavigationMenuItem className="w-full">
-                        <NavigationMenuLink
-                          href="/dashboard"
-                          className="py-1.5"
-                          active={location.startsWith("/dashboard")}
-                        >
-                          Manage
-                        </NavigationMenuLink>
-                      </NavigationMenuItem>
-                    }
                   </NavigationMenuList>
                 </NavigationMenu>
               </PopoverContent>
             </Popover>
           </div>
-          <Link href="/" className="text-primary hover:text-primary/90">
+          <Link href="/">
             <Image src="/my_logo.PNG" alt="Logo" width={50} height={50} />
           </Link>
         </div>
@@ -120,35 +129,73 @@ export default function Navbar() {
                 link.role === "PUBLIC" &&
                 <NavigationMenuItem key={index} className="h-full">
                   <NavigationMenuLink
-                    href={link.href}
-                    className="text-bg hover:text-portfolio border-b-portfolio hover:border-b-portfolio data-[active]:border-b-portfolio h-full justify-center rounded-none border-y-2 border-transparent py-1.5 font-medium hover:bg-transparent data-[active]:bg-transparent!"
-                    active={link.href==="/" ? location==="/" : location.startsWith(link.href)}
+                    asChild
+                    className="hover:text-portfolio border-b-portfolio hover:border-b-portfolio data-[active]:border-b-portfolio h-full justify-center rounded-none border-y-2 border-transparent py-1.5 font-medium hover:bg-transparent data-[active]:bg-transparent!"
+                    active={link.href === "/" ? location === "/" : location.startsWith(link.href)}
                   >
-                    {link.label}
+                    <Link href={link.href}>{link.label}</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
-              {user?.email &&
-                <NavigationMenuItem className="w-full">
-                  <NavigationMenuLink
-                    href="/dashboard"
-                    className="py-1.5"
-                    active={location.startsWith("/dashboard")}
-                  >
-                    Manage
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              }
             </NavigationMenuList>
           </NavigationMenu>
         </div>
         {/* Right side */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <ThemeToggler />
           {
             !user?.email ?
               <Link href="/login" className="hover:underline text-sm">Login</Link> :
-              <LogOut/>
+              <Popover>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <PopoverTrigger asChild>
+                      <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-portfolio cursor-pointer hover:animate-pulse">
+                        <Image
+                          src={user.picture as string} alt={user.name?.toUpperCase() as string}
+                          width={40}
+                          height={40}
+                          layout="intrinsic"
+                          className="object-cover"
+                        />
+                      </div>
+                    </PopoverTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="mb-2">Dashboard</p>
+                    <Separator/>
+                    <p className="mt-2">Log Out</p>
+                  </TooltipContent>
+                </Tooltip>
+                <PopoverContent align="end" className="w-36 p-1">
+                  <NavigationMenu className="max-w-none *:w-full">
+                    <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
+                      <NavigationMenuItem className="w-full">
+                        <NavigationMenuLink
+                          asChild
+                          className="py-1.5 hover:text-portfolio"
+                          active={location.startsWith("/dashboard")}
+                        >
+                          <Link href="/dashboard">
+                            <p className="flex items-center gap-2">
+                              <Home className="h-5 text-portfolio" />
+                              Dashboard
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                        <ConfirmationAlert onConfirm={handleLogout} dialogDescription="You are going to log out from your account.">
+                          <NavigationMenuLink className="cursor-pointer">
+                            <p className="flex items-center gap-2 hover:text-red-500">
+                              <LogOut className="h-5 text-red-500" />
+                              Logout
+                            </p>
+                          </NavigationMenuLink>
+                        </ConfirmationAlert>
+                      </NavigationMenuItem>
+                    </NavigationMenuList>
+                  </NavigationMenu>
+                </PopoverContent>
+              </Popover>
           }
         </div>
       </div>
