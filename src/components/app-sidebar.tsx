@@ -21,7 +21,8 @@ import ConfirmationAlert from "./ConfirmationAlert";
 import { LogOut } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
 import { usePathname, useRouter } from "next/navigation";
-import { logout } from "@/actions/client/auth";
+import { logout } from "@/actions/auth";
+import { toast } from "sonner";
 
 
 const navMain = [
@@ -60,15 +61,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const location = usePathname();
 
   const handleLogout = async () => {
-    // const toastId = toast.loading("Logging Out...");
+    const toastId = toast.loading("Logging Out...");
     const res = await logout();
     if (res.success) {
       setUser(null);
-      // toast.success("Logged Out Successfully", { id: toastId });
+      toast.success("Logged Out Successfully", { id: toastId });
       router.push("/");
     } else {
-      // toast.error("Failed to Logout! Please try again.", { id: toastId });
-      console.log(res);
+      toast.error("Failed to Logout! Please try again.", { id: toastId });
     };
   };
 

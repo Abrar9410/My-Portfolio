@@ -17,10 +17,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Password from "@/components/ui/Password";
-import { login } from "@/actions/client/auth";
-// import { toast } from "sonner";
+import { login } from "@/actions/auth";
 import { useUser } from "@/contexts/UserContext";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 
 const loginSchema = z.object({
@@ -43,24 +43,23 @@ export function LoginForm({
   });
 
   const { setUser } = useUser();
-  // const [login] = useLoginMutation();
   const router = useRouter();
   
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
-    // const toastId = toast.loading("Verifying Credentials...")
+    const toastId = toast.loading("Verifying Credentials...")
     try {
       const res = await login(data);
       if (res.success) {
         setUser(res.data.user);
+        toast.success(res.message, { id: toastId });
         router.push("/dashboard");
       };
     } catch (err: any) {
-      // if (err.data.message === "Incorrect Password!") {
-      //   toast.error("Invalid credentials", { id: toastId });
-      // } else {
-      //   toast.error(err.data.message, { id: toastId });
-      // };
-      console.log(err);
+      if (err.data.message === "Incorrect Password!") {
+        toast.error("Invalid credentials", { id: toastId });
+      } else {
+        toast.error(err.data.message, { id: toastId });
+      };
     }
   };
 

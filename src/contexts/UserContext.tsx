@@ -2,7 +2,7 @@ import type { IUser } from "@/types";
 import { createContext, useContext } from "react";
 
 export type UserContextType = {
-    user: IUser | null;
+    user: Partial<IUser> | null;
     setUser: (user: IUser | null) => void;
     loading: boolean;
     setLoading: (loading: boolean) => void;
