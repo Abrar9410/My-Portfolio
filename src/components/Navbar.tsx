@@ -152,7 +152,8 @@ export default function Navbar() {
                     <PopoverTrigger asChild>
                       <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-portfolio cursor-pointer hover:animate-pulse">
                         <Image
-                          src={user.picture as string} alt={user.name?.toUpperCase() as string}
+                          src={user.picture ? user.picture as string: "https://res.cloudinary.com/example.png"}
+                          alt={user.name?.slice(0,1).toUpperCase() as string}
                           width={40}
                           height={40}
                           layout="intrinsic"

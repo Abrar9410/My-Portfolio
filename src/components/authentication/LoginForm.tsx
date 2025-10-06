@@ -25,7 +25,7 @@ import { useState } from "react";
 
 
 const loginSchema = z.object({
-  email: z.email(),
+  email: z.email("Invalid Email Format"),
   password: z.string()
 });
 
@@ -86,6 +86,7 @@ export function LoginForm({
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
+                      type="email"
                       placeholder="john@example.com"
                       {...field}
                       value={field.value || ""}

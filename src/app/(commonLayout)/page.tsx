@@ -1,4 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+  title: "Home | Abrar's Portfolio",
+  description: ""
+};
 
 
 const HomePage = () => {

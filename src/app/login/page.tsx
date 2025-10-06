@@ -1,7 +1,14 @@
+import { Metadata } from "next";
 import { LoginForm } from "@/components/authentication/LoginForm";
 import { ThemeToggler } from "@/components/ThemeToggler";
 import Image from "next/image";
 import Link from "next/link";
+
+
+export const metadata: Metadata = {
+    title: "Login | Abrar's Portfolio",
+    description: "Login page for Abrar Shahriar"
+};
 
 
 const Login = () => {
