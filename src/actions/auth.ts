@@ -39,3 +39,28 @@ export const logout = async () => {
 
     return await res.json();
 };
+
+export const changePassword = async (data: FieldValues) => {
+    const token = await getCookie("token");
+    if (!token) {
+        return {
+            success: false,
+            message: "You are not logged in!"
+        };
+    };
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/change-password`, {
+        method: "PATCH",
+        headers: {
+            Cookie: `token=${token.value}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    if (!res.ok) {
+        return res;
+    };
+
+    return await res.json();
+};

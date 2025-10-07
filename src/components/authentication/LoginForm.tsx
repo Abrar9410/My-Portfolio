@@ -54,15 +54,15 @@ export function LoginForm({
       const res = await login(data);
       if (res.success) {
         setUser(res.data.user);
-        toast.success(res.message, { id: toastId });
         setSubmitting(false);
         router.push("/dashboard");
-      } else {
+        toast.success(res.message, { id: toastId });
+      } else if (res.message) {
         toast.error(res.message, { id: toastId });
         setSubmitting(false);
       };
     } catch (err: any) {
-      toast.error(err.data.message, { id: toastId });
+      toast.error(err.message, { id: toastId });
       setSubmitting(false);
     }
   };
@@ -72,7 +72,7 @@ export function LoginForm({
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Welcome Back!</h1>
         <p className="text-balance text-sm text-muted-foreground">
-          Enter your credentials to login to your account
+          Enter your credentials to login
         </p>
       </div>
       <div className="grid gap-6">

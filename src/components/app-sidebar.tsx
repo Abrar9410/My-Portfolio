@@ -18,7 +18,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import ConfirmationAlert from "./ConfirmationAlert";
-import { CircleUser, ImagePlus, LogOut, MonitorCog, NotebookPen, NotepadText } from "lucide-react";
+import { ChartBarStacked, CircleUser, ImagePlus, LogOut, MonitorCog, NotebookPen, NotepadText } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/actions/auth";
@@ -31,9 +31,9 @@ const navMain = [
     url: "/dashboard",
     items: [
       {
-        title: "Profile",
-        url: "/dashboard/profile",
-        icon: <CircleUser className="h-5"/>
+        title: "Overview",
+        url: "/dashboard/overview",
+        icon: <ChartBarStacked className="h-5"/>
       },
       {
         title: "Add Project",
@@ -55,6 +55,11 @@ const navMain = [
         url: "/dashboard/manage-blogs",
         icon: <NotepadText className="h-5"/>
       },
+      {
+        title: "Profile",
+        url: "/dashboard/profile",
+        icon: <CircleUser className="h-5" />
+      }
     ],
   }
 ];
