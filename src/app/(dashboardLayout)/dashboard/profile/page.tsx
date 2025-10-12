@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { EditProfile } from "@/components/modals/EditProfile";
 import { ChangePassword } from "@/components/modals/ChangePassword";
 import { getMe } from "@/actions/user";
-import ProfileField from "@/components/profilePage/ProfileField";
+import ProfileField from "@/components/dashboard/profilePage/ProfileField";
 import Image from "next/image";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -21,7 +21,7 @@ const ProfilePage = async () => {
     const user = await getMe();
 
     return (
-        <div id="profile" className="p-4 sm:p-6">
+        <div className="p-4 sm:p-6">
             <Card className="max-w-3xl mx-auto shadow-md">
                 {/* Header Section */}
                 <CardHeader className="flex flex-col items-center">
@@ -31,7 +31,6 @@ const ProfilePage = async () => {
                             alt={user.name?.slice(0, 1).toUpperCase() as string}
                             width={160}
                             height={192}
-                            layout="intrinsic"
                             className="object-cover"
                         />
                     </div>

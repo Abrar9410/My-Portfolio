@@ -86,7 +86,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar {...props}>
       <SidebarHeader>
         <Link href="/" className="mt-2 ml-5">
-          <Image src="/my_logo.PNG" alt="Logo" width={50} height={50} />
+          <Image src="/my_logo.PNG" alt="Logo" width={60} height={40} priority className="w-[60px] h-[40px]"/>
         </Link>
       </SidebarHeader>
       <SidebarContent className="pl-3">

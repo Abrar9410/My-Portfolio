@@ -117,7 +117,7 @@ export default function Navbar() {
             </Popover>
           </div>
           <Link href="/">
-            <Image src="/my_logo.PNG" alt="Logo" width={50} height={50} />
+            <Image src="/my_logo.PNG" alt="Logo" width={60} height={40} priority className="w-[60px] h-[40px]"/>
           </Link>
         </div>
         {/* Main nav */}
@@ -156,7 +156,6 @@ export default function Navbar() {
                           alt={user.name?.slice(0,1).toUpperCase() as string}
                           width={40}
                           height={40}
-                          layout="intrinsic"
                           className="object-cover"
                         />
                       </div>
