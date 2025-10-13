@@ -1,5 +1,6 @@
 "use server"
 
+import { revalidateTag } from "next/cache";
 import { getCookie } from "./cookies";
 
 
@@ -18,6 +19,26 @@ export const createBlog = async (payload: FormData) => {
             body: payload,
             credentials: "include",
         });
+
+        if (res.ok) {
+            revalidateTag("BLOGS");
+        };
          
         return await res.json();
+};
+
+export const getAllBlogs = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs`, {
+        next: {
+            tags: ["BLOGS"]
+        }
+    });
+
+    return await res.json();
+};
+
+export const getSingleBlog = async (blogId: string) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`);
+
+    return await res.json();
 };

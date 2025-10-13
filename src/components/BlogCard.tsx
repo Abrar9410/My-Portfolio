@@ -1,30 +1,40 @@
+import { IBlog } from "@/types";
+import { Eye, MoveRight, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import dayjs from "dayjs";
 
 
-const BlogCard = () => {
+const BlogCard = ({ blog }: { blog: IBlog }) => {
     return (
-        <article className="overflow-hidden rounded-lg shadow-sm transition hover:shadow-lg">
+        <article className="overflow-hidden bg-card text-card-foreground rounded-lg border border-portfolio shadow-sm transition hover:shadow-lg">
             <Image
-                src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-                alt=""
-                fill
-                className="h-56 w-full object-cover"
+                src={blog.thumbnail}
+                alt="Blog Thumbnail"
+                width={650}
+                height={500}
+                className="h-64 w-full object-fill"
             />
 
-            <div className="bg-white p-4 sm:p-6">
-                <time dateTime="2022-10-10" className="block text-xs text-gray-500"> 10th Oct 2022 </time>
+            <div className="p-4 sm:p-6">
+                <div className="flex justify-between items-center text-xs text-muted-foreground">
+                    <time className="block">{dayjs(blog.createdAt).format("DD MMM YYYY")}</time>
+                    <p className="flex justify-end items-center gap-1"><Eye size={12}/>{blog.views}</p>
+                </div>
 
-                <Link href={`/blogs/`}>
-                    <h3 className="mt-0.5 text-lg text-gray-900">How to position your furniture for positivity</h3>
-                </Link>
+                <h3 className="mt-0.5 text-lg">{blog.title}</h3>
 
-                <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
-                    pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
-                    mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
-                    dignissimos. Molestias explicabo corporis voluptatem?
+                <p className="mt-2 line-clamp-3 text-sm/relaxed text-muted-foreground">
+                    {blog.overview}
                 </p>
+                <p className="mt-2 flex items-center gap-1 text-sm/relaxed text-muted-foreground">
+                    <Tag size={14} />
+                    <span>{blog.tags.join(", ")}</span>
+                </p>
+                <Link href={`/blogs/${blog._id}`} className="w-max flex items-center gap-1 hover:gap-2 hover:underline dark:text-portfolio mt-4">
+                    <span>Find out more</span>
+                    <MoveRight size={16}/>
+                </Link>
             </div>
         </article>
     );

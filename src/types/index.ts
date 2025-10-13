@@ -13,3 +13,16 @@ export interface IUser {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export interface IBlog {
+  _id: string;
+  title: string;
+  thumbnail: string;
+  overview: string;
+  contentJSON: Record<string, unknown>;
+  contentHTML: string;
+  tags: string[];
+  views: number;
+  createdAt?: Date
+  updatedAt?: Date
+};
