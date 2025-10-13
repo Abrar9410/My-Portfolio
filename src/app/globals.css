@@ -123,3 +123,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.prose ul {
+  @apply list-disc ml-10
+}
+
+.prose ol {
+  @apply list-decimal ml-10
+}
