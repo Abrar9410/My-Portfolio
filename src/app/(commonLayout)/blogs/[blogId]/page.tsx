@@ -1,5 +1,5 @@
 import { getSingleBlog } from "@/actions/blog";
-import dayjs from "dayjs";
+import { format } from "date-fns";
 import Image from "next/image";
 
 
@@ -23,7 +23,7 @@ const SingleBlogPage = async ({params}: {params: Promise<{blogId: string}>}) => 
     return (
         <div className="max-w-3xl mx-auto my-10 relative">
             <p className="flex justify-between items-center text-sm text-muted-foreground mb-4">
-                <span>Published on: {dayjs(blog.createdAt).format("DD MMM YYYY")}</span>
+                <span>Published on: {format(blog.createdAt as string, "PPP")}</span>
                 <span>{blog.views} views</span>
             </p>
             <Image 

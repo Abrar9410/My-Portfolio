@@ -1,8 +1,8 @@
 import { IBlog } from "@/types";
+import { format } from "date-fns";
 import { Eye, MoveRight, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import dayjs from "dayjs";
 
 
 const BlogCard = ({ blog }: { blog: IBlog }) => {
@@ -18,7 +18,7 @@ const BlogCard = ({ blog }: { blog: IBlog }) => {
 
             <div className="p-4 sm:p-6">
                 <div className="flex justify-between items-center text-xs text-muted-foreground">
-                    <time className="block">{dayjs(blog.createdAt).format("DD MMM YYYY")}</time>
+                    <time className="block">{format(blog.createdAt as string, "PP")}</time>
                     <p className="flex justify-end items-center gap-1"><Eye size={12}/>{blog.views}</p>
                 </div>
 
