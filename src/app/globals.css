@@ -131,3 +131,7 @@
 .prose ol {
   @apply list-decimal ml-10
 }
+
+.prose h3 {
+  @apply text-lg font-semibold dark:text-portfolio
+}

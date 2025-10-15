@@ -29,6 +29,8 @@ const SingleBlogPage = async ({params}: {params: Promise<{blogId: string}>}) => 
             <Image 
                 src={blog.thumbnail}
                 alt="BLOG THUMBNAIL"
+                placeholder="blur"
+                blurDataURL={blog.thumbnail}
                 width={650}
                 height={500}
                 priority={true}

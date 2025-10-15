@@ -37,8 +37,8 @@ export const getAllProjects = async () => {
     return await res.json();
 };
 
-export const getSingleProject = async (projectId: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${projectId}`);
+export const getSingleProject = async (projectTitle: string) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${projectTitle}`);
 
     return await res.json();
 };

@@ -93,7 +93,7 @@ export default function AddProjectForm() {
     const onSubmit = async (data: ProjectFormValues) => {
         setSubmitting(true);
         const { thumbnail, details, startDate, endDate, featured, ...rest } = data;
-        const toastId = toast.loading("Creating New Blog...");
+        const toastId = toast.loading("Adding New Project...");
 
         try {
             const formData = new FormData();
@@ -123,7 +123,7 @@ export default function AddProjectForm() {
             }
         } catch (err) {
             console.error(err);
-            toast.error("An error occurred while creating the blog", { id: toastId });
+            toast.error("An error occurred while adding the project", { id: toastId });
         } finally {
             setSubmitting(false);
         }
