@@ -16,7 +16,7 @@ const BlogsPage = async () => {
     const { data: blogs } = await getAllBlogs();
 
     return (
-        <div>
+        <>
             <Heading
                 title="My Blogs"
                 subtitle="Welcome to my blogs! Here I have tried to share my little knowledge and own thoughts. Hope, you enjoy!"
@@ -31,7 +31,7 @@ const BlogsPage = async () => {
                     </h3>
                 }
             </div>
-        </div>
+        </>
     );
 };
 

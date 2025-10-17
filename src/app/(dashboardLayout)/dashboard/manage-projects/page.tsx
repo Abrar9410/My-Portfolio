@@ -1,3 +1,5 @@
+import { getAllProjects } from "@/actions/project";
+import ProjectManagement from "@/components/dashboard/manageProjectsPage/ProjectManagement";
 import { Metadata } from "next";
 
 
@@ -7,10 +9,13 @@ export const metadata: Metadata = {
 };
 
 
-const ManageProjectsPage = () => {
+const ManageProjectsPage = async () => {
+    const { data: projects } = await getAllProjects();
+
     return (
         <div>
-            MANAGE PROJECTS
+            <h2 className="text-2xl font-semibold text-center text-portfolio mb-10">Manage Projects</h2>
+            <ProjectManagement data={projects} />
         </div>
     );
 };

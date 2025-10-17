@@ -3,7 +3,7 @@
 // export type TRole = "ADMIN" | "USER";
 
 export interface IUser {
-  _id?: string;
+  _id: string;
   name: string;
   email: string;
   password?: string;
@@ -15,7 +15,7 @@ export interface IUser {
 };
 
 export interface IProject {
-  _id?: string;
+  _id: string;
   title: string;
   thumbnail: string;
   overview: string;

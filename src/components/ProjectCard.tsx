@@ -1,8 +1,9 @@
 import { IProject } from "@/types";
 import { format } from "date-fns";
-import { MoveRight } from "lucide-react";
+import { ExternalLink, Github, MoveRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Badge } from "./ui/badge";
 
 
 const ProjectCard = ({ project }: { project: IProject }) => {
@@ -18,25 +19,48 @@ const ProjectCard = ({ project }: { project: IProject }) => {
                 className="h-auto w-full object-fill"
             />
 
-            <div className="p-4 sm:p-6">
-                <div className="flex justify-between items-center text-xs text-muted-foreground">
-                    <time className="block">{format(project.startDate as string, "PP")}</time>
-                    {/* <time className="block">{format(project.endDate as string, "PP")}</time> */}
-                </div>
+            <div className="p-4">
 
-                <h3 className="mt-0.5 text-lg">{project.title}</h3>
+                <h3 className="text-lg text-center">{project.title}</h3>
 
-                <p className="mt-2 line-clamp-3 text-sm/relaxed text-muted-foreground">
+                <p className="mt-0.5 text-center line-clamp-3 text-sm/relaxed text-muted-foreground">
                     {project.overview}
                 </p>
-                <p className="mt-2 flex items-center gap-1 text-sm/relaxed text-muted-foreground">
-                    <span>Technologies:</span> 
-                    <span>{project.technologies.join(", ")}</span>
-                </p>
-                <Link href={`/projects/${project.title}`} className="w-max flex items-center gap-1 hover:gap-2 hover:underline dark:text-portfolio mt-4">
-                    <span>View Details</span>
-                    <MoveRight size={16}/>
-                </Link>
+
+                <div className="mt-4 flex justify-center items-center gap-1 flex-wrap">
+                    {
+                        project.technologies.map((tech: string, idx: number) => (
+                            <Badge key={idx} variant="secondary">
+                                {tech}
+                            </Badge>
+                        ))
+                    }
+                </div>
+
+                <div className="flex justify-between items-center mt-6">
+                    <Link
+                        href={`/projects/${project.title}`}
+                        className="w-max flex items-center gap-1 hover:gap-2 hover:underline dark:text-portfolio"
+                    >
+                        <span>View Details</span>
+                        <MoveRight size={16} />
+                    </Link>
+                    <div className="flex justify-end items-center gap-4">
+                        <Link
+                            href={project.github_repo} target="_blank"
+                            className="w-max text-blue-600 dark:text-blue-400 hover:animate-pulse"
+                        >
+                            <Github size={16} />
+                        </Link>
+                        <Link
+                            href={project.live_link} target="_blank"
+                            className="w-max text-blue-600 dark:text-blue-400 hover:animate-pulse"
+                        >
+                            <ExternalLink size={16} />
+                        </Link>
+                    </div>
+                </div>
+                
             </div>
         </article>
     );

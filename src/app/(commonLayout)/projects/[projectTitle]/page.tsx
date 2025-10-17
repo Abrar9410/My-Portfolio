@@ -8,6 +8,18 @@ import Image from "next/image";
 import Link from "next/link";
 
 
+export const generateMetadata = async ({ params }: { params: Promise<{ projectTitle: string }> }) => {
+
+    const { projectTitle } = await params;
+    const { data: project } = await getSingleProject(projectTitle);
+
+    return {
+        title: project?.title || "Not Found",
+        description: project?.detailsHTML || ""
+    };
+};
+
+
 const SingleProjectPage = async ({ params }: { params: Promise<{ projectTitle: string }> }) => {
 
     const { projectTitle } = await params;

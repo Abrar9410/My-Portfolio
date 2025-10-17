@@ -1,0 +1,251 @@
+/* eslint-disable prefer-const */
+"use client"
+
+import { deleteBlog, getAllBlogs } from "@/actions/blog";
+import ConfirmationAlert from "@/components/ConfirmationAlert";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { IBlog } from "@/types";
+import { format } from "date-fns";
+import { Eye, Plus, SquarePen, Trash2 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
+
+
+
+const BlogManagement = ({data}: {data: IBlog[]}) => {
+
+    const firstMount = useRef(true);
+    const [magic, setMagic] = useState<boolean>(false);
+    const [blogs, setBlogs] = useState<IBlog[] | []>(data);
+    const [currentPage, setCurrentPage] = useState(1);
+    const limit = 10;
+    let startIndex = (currentPage - 1) * limit;             // skip (in backend)
+    let sliceEndIndex = ((currentPage - 1) * limit) + limit;
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [filter, setFilter] = useState<string>("");
+    const [sort, setSort] = useState<string>("");
+    const queryStr = [searchTerm, filter, sort].filter(Boolean).join("&");
+    const query = queryStr ? `?${queryStr}` : "";
+
+
+    useEffect(() => {
+        if (firstMount.current) {
+            firstMount.current = false;
+            return;
+        }
+
+        const refetch = async () => {
+            const res = await getAllBlogs(query);
+            setBlogs(res.data.length > 0 ? res.data : []);
+        };
+
+        refetch();
+    }, [query, magic]);
+
+
+    // const handleFilterValueChange = (value: string) => {
+    //     setFilter(value);
+
+    //     if (value === "none") {
+    //         setFilter("");
+    //     } else if (value === "ACTIVE") {
+            
+    //     } else if (value === "INACTIVE") {
+            
+    //     } else if (value === "BLOCKED") {
+            
+    //     }
+    // };
+
+    const handleSortValueChange = (value: string) => {
+        if (value === "none") {
+            setSort("");
+        } else {
+            setSort(value);
+        }
+    };
+
+    const handleDeleteBlog = async (blogId: string) => {
+        const toastId = toast.loading("Deleting Blog...");
+        const res = await deleteBlog(blogId);
+
+        if (res.success) {
+            setMagic(!magic);
+            toast.success(res.message, { id: toastId });
+        } else {
+            toast.error(res.message, { id: toastId });
+        }
+    };
+
+    return (
+        <div>
+            {/* Search, Filter, Sort */}
+            <div className="flex max-[562px]:flex-col justify-center items-center gap-2 mb-10">
+                
+                {/* Search */}
+                <Input
+                    placeholder="Search by Title or Tags"
+                    value={searchTerm.replace("searchTerm=", "")}
+                    onChange={(e) => setSearchTerm(`${e.target.value ? "searchTerm=" + e.target.value : ""}`)}
+                    className="max-w-xs"
+                />
+                
+                {/* Filter */}
+                {/* <Select value={filter} onValueChange={(val) => handleFilterValueChange(val)}>
+                    <SelectTrigger className="w-[130px] cursor-pointer">
+                        <SelectValue placeholder="filter" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup className="*:cursor-pointer">
+                            <SelectItem value="none">none</SelectItem>
+                            <SelectItem value="ACTIVE">Active</SelectItem>
+                            <SelectItem value="INACTIVE">Inactive</SelectItem>
+                            <SelectItem value="BLOCKED">Blocked</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select> */}
+                
+                {/* Sort */}
+                <Select value={sort} onValueChange={(val) => handleSortValueChange(val)}>
+                    <SelectTrigger className="w-[130px] cursor-pointer">
+                        <SelectValue placeholder="sort" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup className="*:cursor-pointer">
+                            <SelectItem value="none">none</SelectItem>
+                            <SelectItem value="sort=title">Title (A-Z) &uarr;</SelectItem>
+                            <SelectItem value="sort=-title">Title (Z-A) &darr;</SelectItem>
+                            <SelectItem value="sort=createdAt">Date (Oldest) &uarr;</SelectItem>
+                            <SelectItem value="sort=-createdAt">Date (Newest) &darr;</SelectItem>
+                            <SelectItem value="sort=views">Views (Least) &uarr;</SelectItem>
+                            <SelectItem value="sort=-views">Views (Most) &darr;</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+            </div>
+
+            <div className="flex justify-end mb-4">
+                <Link href="/dashboard/create-blog">
+                    <Button className="bg-portfolio text-black cursor-pointer flex justify-center items-center gap-1">
+                        <Plus /> Create New Blog
+                    </Button>
+                </Link>
+            </div>
+
+            <div className="space-y-4">
+
+                {/* Table */}
+                <div className="overflow-x-auto">
+                    <Table className="text-center [&_th]:text-center [&_td]:text-center [&_th]:font-semibold">
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Thumbnail</TableHead>
+                                <TableHead>Title</TableHead>
+                                <TableHead>Overview</TableHead>
+                                <TableHead>Published on</TableHead>
+                                <TableHead>Tags</TableHead>
+                                <TableHead>Views</TableHead>
+                                <TableHead>Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+
+                        <TableBody>
+                            {blogs?.length > 0 ? (
+                                blogs?.slice(startIndex, sliceEndIndex).map((blog: IBlog) => (
+                                    <TableRow key={blog._id}>
+                                        <TableCell className="p-1 text-center">
+                                            <Image
+                                                src={blog.thumbnail}
+                                                alt="Thumbnail"
+                                                width={100}
+                                                height={70}
+                                                className="w-[100px] h-[70px] mx-auto"
+                                            />
+                                        </TableCell>
+                                        <TableCell>{blog.title}</TableCell>
+                                        <TableCell>{blog.overview}</TableCell>
+                                        <TableCell>{format(blog.createdAt as string, "PP")}</TableCell>
+                                        <TableCell>{blog.tags.join(", ")}</TableCell>
+                                        <TableCell>{blog.views}</TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col justify-center items-center gap-3">
+                                                <Link href={`/blogs/${blog._id}`} className="w-max hover:scale-110">
+                                                    <Eye size={18} />
+                                                </Link>
+                                                <Link href={`/dashboard/manage-blogs/edit/${blog._id}`} className="w-max hover:scale-110">
+                                                    <SquarePen size={18} className="text-yellow-500" />
+                                                </Link>
+                                                <ConfirmationAlert
+                                                    onConfirm={() => handleDeleteBlog(blog._id)}
+                                                    dialogDescription="This Blog will be Deleted permanently!"
+                                                >
+                                                    <Trash2 size={18} className="cursor-pointer text-red-500 hover:scale-110" />
+                                                </ConfirmationAlert>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={7} className="text-center">
+                                        No Blog found
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+
+                {blogs?.length > 0 && (
+                    <div className="mt-10">
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious
+                                        onClick={() => setCurrentPage((prev) => prev - 1)}
+                                        className={
+                                            currentPage === 1
+                                                ? "pointer-events-none opacity-50"
+                                                : "cursor-pointer"
+                                        }
+                                    />
+                                </PaginationItem>
+                                {Array.from({ length: Math.ceil(blogs?.length / limit) }, (_, index) => index + 1).map(
+                                    (page) => (
+                                        <PaginationItem
+                                            key={page}
+                                            onClick={() => setCurrentPage(page)}
+                                            className="cursor-pointer"
+                                        >
+                                            <PaginationLink isActive={currentPage === page}>
+                                                {page}
+                                            </PaginationLink>
+                                        </PaginationItem>
+                                    )
+                                )}
+                                <PaginationItem>
+                                    <PaginationNext
+                                        onClick={() => setCurrentPage((prev) => prev + 1)}
+                                        className={
+                                            currentPage === Math.ceil(blogs?.length / limit)
+                                                ? "pointer-events-none opacity-50"
+                                                : "cursor-pointer"
+                                        }
+                                    />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default BlogManagement;
