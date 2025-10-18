@@ -10,7 +10,9 @@ export const metadata: Metadata = {
 const OverviewPage = () => {
     return (
         <div>
-            OVERVIEW
+            <p className="text-lg text-center">
+                This Page is Currently Under Construction!
+            </p>
         </div>
     );
 };

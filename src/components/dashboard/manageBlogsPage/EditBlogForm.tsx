@@ -141,7 +141,7 @@ export default function EditBlogForm({blog}: {blog: IBlog}) {
                     render={({ field }) => (
                         <FormItem className="min-w-64 max-w-md mx-auto">
                             <FormLabel className="w-max mx-auto text-yellow-500">
-                                Thumbnail Image (Upload only if you want to change the current Thumbnail)
+                                Thumbnail Image (Upload ONLY IF you want to change the current Thumbnail)
                             </FormLabel>
                             <FormControl>
                                 <ImageUploader {...field} />

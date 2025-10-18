@@ -18,7 +18,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import ConfirmationAlert from "./ConfirmationAlert";
-import { ChartBarStacked, CircleUser, ImagePlus, LogOut, MonitorCog, NotebookPen, NotepadText } from "lucide-react";
+import { /*ChartBarStacked,*/ CircleUser, ImagePlus, LogOut, MonitorCog, NotebookPen, NotepadText } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/actions/auth";
@@ -30,11 +30,11 @@ const navMain = [
     title: "Manage Portfolio",
     url: "/dashboard",
     items: [
-      {
-        title: "Overview",
-        url: "/dashboard/overview",
-        icon: <ChartBarStacked className="h-5"/>
-      },
+      // {
+      //   title: "Overview",
+      //   url: "/dashboard/overview",
+      //   icon: <ChartBarStacked className="h-5"/>
+      // },
       {
         title: "Add Project",
         url: "/dashboard/add-project",
@@ -98,9 +98,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenu>
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.url === location}>
+                    <SidebarMenuButton asChild isActive={location.startsWith(item.url)}>
                       <Link href={item.url}>
-                        <p className={`${item.url === location && "text-portfolio"} flex items-center gap-2`}>
+                        <p className={`${location.startsWith(item.url) && "text-portfolio"} flex items-center gap-2`}>
                           {item.icon}
                           {item.title}
                         </p>

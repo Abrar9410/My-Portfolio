@@ -98,7 +98,7 @@ export default function UpdateProjectForm({project}: {project: IProject}) {
     const onSubmit = async (data: ProjectFormValues) => {
         setSubmitting(true);
         const { thumbnail, details, startDate, endDate, featured, ...rest } = data;
-        const toastId = toast.loading("Adding New Project...");
+        const toastId = toast.loading("Updating Project...");
 
         try {
             const formData = new FormData();
@@ -161,7 +161,7 @@ export default function UpdateProjectForm({project}: {project: IProject}) {
                     render={({ field }) => (
                         <FormItem className="min-w-64 max-w-md mx-auto">
                             <FormLabel className="w-max mx-auto text-yellow-500">
-                                Thumbnail Image (Upload only if you want to change the current Thumbnail)
+                                Thumbnail Image (Upload ONLY IF you want to change the current Thumbnail)
                             </FormLabel>
                             <FormControl>
                                 <ImageUploader {...field} />
