@@ -118,7 +118,7 @@ export default function UpdateProjectForm({project}: {project: IProject}) {
                 formData.append("file", thumbnail);
             };
 
-            const res = await updateProject(project._id, formData);
+            const res = await updateProject(project._id, project.title, formData);
 
             if (res.success) {
                 toast.success(res.message, { id: toastId });
@@ -354,7 +354,7 @@ export default function UpdateProjectForm({project}: {project: IProject}) {
                                 <FormControl>
                                     <RadioGroup
                                         onValueChange={field.onChange}
-                                        defaultValue="no"
+                                        defaultValue={project.featured ? "yes" : "no"}
                                         className="flex flex-col"
                                     >
                                         <FormItem className="flex items-center gap-3">

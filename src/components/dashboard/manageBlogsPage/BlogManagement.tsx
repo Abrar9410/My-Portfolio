@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 "use client"
 
 import { deleteBlog, getAllBlogs } from "@/actions/blog";
@@ -8,41 +7,51 @@ import { Input } from "@/components/ui/input";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { IBlog } from "@/types";
+import { IBlog, IMeta } from "@/types";
 import { format } from "date-fns";
 import { Eye, Plus, SquarePen, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 
+interface BlogManagementProps {
+    data: IBlog[];
+    meta: IMeta;
+};
 
-const BlogManagement = ({data}: {data: IBlog[]}) => {
+
+
+const BlogManagement = ({data, meta}: BlogManagementProps) => {
 
     const firstMount = useRef(true);
     const [magic, setMagic] = useState<boolean>(false);
     const [blogs, setBlogs] = useState<IBlog[] | []>(data);
-    const [currentPage, setCurrentPage] = useState(1);
-    const limit = 10;
-    let startIndex = (currentPage - 1) * limit;             // skip (in backend)
-    let sliceEndIndex = ((currentPage - 1) * limit) + limit;
+    const [metaData, setMetaData] = useState<IMeta>(meta);
+    const [currentPage, setCurrentPage] = useState(metaData.page || 1);
+    const pageQuery = `page=${currentPage}`;
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [filter, setFilter] = useState<string>("");
     const [sort, setSort] = useState<string>("");
-    const queryStr = [searchTerm, filter, sort].filter(Boolean).join("&");
-    const query = queryStr ? `?${queryStr}` : "";
+    const query = useMemo(() => {
+        const queryStr = [searchTerm, filter, sort, pageQuery].filter(Boolean).join("&");
+        return queryStr ? `?${queryStr}` : "";
+    }, [searchTerm, filter, sort, pageQuery]);
 
 
     useEffect(() => {
         if (firstMount.current) {
             firstMount.current = false;
             return;
-        }
+        };
 
         const refetch = async () => {
             const res = await getAllBlogs(query);
-            setBlogs(res.data.length > 0 ? res.data : []);
+            if (res.success) {
+                setBlogs(res.data.length > 0 ? res.data : []);
+                setMetaData(res.meta);
+            };
         };
 
         refetch();
@@ -51,7 +60,7 @@ const BlogManagement = ({data}: {data: IBlog[]}) => {
 
     // const handleFilterValueChange = (value: string) => {
     //     setFilter(value);
-
+    //     setCurrentPage(1);
     //     if (value === "none") {
     //         setFilter("");
     //     } else if (value === "ACTIVE") {
@@ -69,6 +78,7 @@ const BlogManagement = ({data}: {data: IBlog[]}) => {
         } else {
             setSort(value);
         }
+        setCurrentPage(1);
     };
 
     const handleDeleteBlog = async (blogId: string) => {
@@ -92,7 +102,10 @@ const BlogManagement = ({data}: {data: IBlog[]}) => {
                 <Input
                     placeholder="Search by Title or Tags"
                     value={searchTerm.replace("searchTerm=", "")}
-                    onChange={(e) => setSearchTerm(`${e.target.value ? "searchTerm=" + e.target.value : ""}`)}
+                    onChange={(e) => {
+                        setSearchTerm(`${e.target.value ? "searchTerm=" + e.target.value : ""}`);
+                        setCurrentPage(1);
+                    }}
                     className="max-w-xs"
                 />
                 
@@ -157,7 +170,7 @@ const BlogManagement = ({data}: {data: IBlog[]}) => {
 
                         <TableBody>
                             {blogs?.length > 0 ? (
-                                blogs?.slice(startIndex, sliceEndIndex).map((blog: IBlog) => (
+                                blogs.map((blog: IBlog) => (
                                     <TableRow key={blog._id}>
                                         <TableCell className="p-1 text-center">
                                             <Image
@@ -202,7 +215,7 @@ const BlogManagement = ({data}: {data: IBlog[]}) => {
                     </Table>
                 </div>
 
-                {blogs?.length > 0 && (
+                {metaData.totalPage > 0 && (
                     <div className="mt-10">
                         <Pagination>
                             <PaginationContent>
@@ -216,7 +229,7 @@ const BlogManagement = ({data}: {data: IBlog[]}) => {
                                         }
                                     />
                                 </PaginationItem>
-                                {Array.from({ length: Math.ceil(blogs?.length / limit) }, (_, index) => index + 1).map(
+                                {Array.from({ length: metaData.totalPage }, (_, index) => index + 1).map(
                                     (page) => (
                                         <PaginationItem
                                             key={page}
@@ -233,7 +246,7 @@ const BlogManagement = ({data}: {data: IBlog[]}) => {
                                     <PaginationNext
                                         onClick={() => setCurrentPage((prev) => prev + 1)}
                                         className={
-                                            currentPage === Math.ceil(blogs?.length / limit)
+                                            currentPage === metaData.totalPage
                                                 ? "pointer-events-none opacity-50"
                                                 : "cursor-pointer"
                                         }

@@ -9,30 +9,36 @@ import { Input } from "@/components/ui/input";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { IProject } from "@/types";
+import { IMeta, IProject } from "@/types";
 import { format } from "date-fns";
 import { Eye, Plus, SquarePen, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 
+interface ProjectManagementProps {
+    data: IProject[];
+    meta: IMeta;
+};
 
-const ProjectManagement = ({data}: {data: IProject[]}) => {
+
+const ProjectManagement = ({ data, meta }: ProjectManagementProps) => {
 
     const firstMount = useRef(true);
     const [magic, setMagic] = useState<boolean>(false);
     const [projects, setProjects] = useState<IProject[] | []>(data);
-    const [currentPage, setCurrentPage] = useState(1);
-    const limit = 10;
-    let startIndex = (currentPage - 1) * limit;             // skip (in backend)
-    let sliceEndIndex = ((currentPage - 1) * limit) + limit;
+    const [metaData, setMetaData] = useState<IMeta>(meta);
+    const [currentPage, setCurrentPage] = useState(metaData.page || 1);
+    const pageQuery = `page=${currentPage}`;
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [filter, setFilter] = useState<string>("");
     const [sort, setSort] = useState<string>("");
-    const queryStr = [searchTerm, filter, sort].filter(Boolean).join("&");
-    const query = queryStr ? `?${queryStr}` : "";
+    const query = useMemo(() => {
+        const queryStr = [searchTerm, filter, sort, pageQuery].filter(Boolean).join("&");
+        return queryStr ? `?${queryStr}` : "";
+    }, [searchTerm, filter, sort, pageQuery]);
 
 
     useEffect(() => {
@@ -43,7 +49,10 @@ const ProjectManagement = ({data}: {data: IProject[]}) => {
 
         const refetch = async () => {
             const res = await getAllProjects(query);
-            setProjects(res.data.length > 0 ? res.data : []);
+            if (res.success) {
+                setProjects(res.data.length > 0 ? res.data : []);
+                setMetaData(res.meta);
+            };
         };
 
         refetch();
@@ -51,7 +60,7 @@ const ProjectManagement = ({data}: {data: IProject[]}) => {
 
 
     const handleFilterValueChange = (value: string) => {
-
+        setCurrentPage(1);
         if (value === "none") {
             setFilter("");
         } else {
@@ -65,11 +74,12 @@ const ProjectManagement = ({data}: {data: IProject[]}) => {
         } else {
             setSort(value);
         }
+        setCurrentPage(1);
     };
 
-    const handleDeleteProject = async (projectId: string) => {
-        const toastId = toast.loading("Deleting Project...");
-        const res = await deleteProject(projectId);
+    const handleRemoveProject = async (projectId: string, projectTitle: string) => {
+        const toastId = toast.loading("Removing Project...");
+        const res = await deleteProject(projectId, projectTitle);
 
         if (res.success) {
             setMagic(!magic);
@@ -83,15 +93,18 @@ const ProjectManagement = ({data}: {data: IProject[]}) => {
         <div>
             {/* Search, Filter, Sort */}
             <div className="flex max-[562px]:flex-col justify-center items-center gap-2 mb-10">
-                
+
                 {/* Search */}
                 <Input
                     placeholder="Search by Title or Technologies"
                     value={searchTerm.replace("searchTerm=", "")}
-                    onChange={(e) => setSearchTerm(`${e.target.value ? "searchTerm=" + e.target.value : ""}`)}
+                    onChange={(e) => {
+                        setSearchTerm(`${e.target.value ? "searchTerm=" + e.target.value : ""}`);
+                        setCurrentPage(1);
+                    }}
                     className="max-w-xs"
                 />
-                
+
                 {/* Filter */}
                 <Select value={filter} onValueChange={(val) => handleFilterValueChange(val)}>
                     <SelectTrigger className="w-[130px] cursor-pointer">
@@ -104,7 +117,7 @@ const ProjectManagement = ({data}: {data: IProject[]}) => {
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-                
+
                 {/* Sort */}
                 <Select value={sort} onValueChange={(val) => handleSortValueChange(val)}>
                     <SelectTrigger className="w-[130px] cursor-pointer">
@@ -151,7 +164,7 @@ const ProjectManagement = ({data}: {data: IProject[]}) => {
 
                         <TableBody>
                             {projects?.length > 0 ? (
-                                projects?.slice(startIndex, sliceEndIndex).map((project: IProject) => (
+                                projects.map((project: IProject) => (
                                     <TableRow key={project._id}>
                                         <TableCell>
                                             <Image
@@ -182,7 +195,7 @@ const ProjectManagement = ({data}: {data: IProject[]}) => {
                                                     <SquarePen size={18} className="text-yellow-500" />
                                                 </Link>
                                                 <ConfirmationAlert
-                                                    onConfirm={() => handleDeleteProject(project._id)}
+                                                    onConfirm={() => handleRemoveProject(project._id, project.title)}
                                                     dialogDescription="This Project will be Removed from Portfolio!"
                                                 >
                                                     <Trash2 size={18} className="cursor-pointer text-red-500 hover:scale-110" />
@@ -202,7 +215,7 @@ const ProjectManagement = ({data}: {data: IProject[]}) => {
                     </Table>
                 </div>
 
-                {projects?.length > 0 && (
+                {metaData.totalPage > 0 && (
                     <div className="mt-10">
                         <Pagination>
                             <PaginationContent>
@@ -216,7 +229,7 @@ const ProjectManagement = ({data}: {data: IProject[]}) => {
                                         }
                                     />
                                 </PaginationItem>
-                                {Array.from({ length: Math.ceil(projects?.length / limit) }, (_, index) => index + 1).map(
+                                {Array.from({ length: metaData.totalPage }, (_, index) => index + 1).map(
                                     (page) => (
                                         <PaginationItem
                                             key={page}
@@ -233,7 +246,7 @@ const ProjectManagement = ({data}: {data: IProject[]}) => {
                                     <PaginationNext
                                         onClick={() => setCurrentPage((prev) => prev + 1)}
                                         className={
-                                            currentPage === Math.ceil(projects?.length / limit)
+                                            currentPage === metaData.totalPage
                                                 ? "pointer-events-none opacity-50"
                                                 : "cursor-pointer"
                                         }

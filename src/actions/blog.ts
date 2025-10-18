@@ -38,7 +38,11 @@ export const getAllBlogs = async (query?: string) => {
 };
 
 export const getSingleBlog = async (blogId: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`, {
+        next: {
+            tags: [`BLOG-${blogId}`]
+        }
+    });
 
     return await res.json();
 };
@@ -61,6 +65,7 @@ export const editBlog = async (blogId: string, payload: FormData) => {
 
     if (res.ok) {
         revalidateTag("BLOGS");
+        revalidateTag(`BLOG-${blogId}`);
     };
 
     return await res.json();
@@ -83,6 +88,7 @@ export const deleteBlog = async (blogId: string) => {
 
     if (res.ok) {
         revalidateTag("BLOGS");
+        revalidateTag(`BLOG-${blogId}`);
     };
 
     return await res.json();

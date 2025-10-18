@@ -10,12 +10,12 @@ export const metadata: Metadata = {
 
 
 const ManageProjectsPage = async () => {
-    const { data: projects } = await getAllProjects();
+    const { data: projects, meta } = await getAllProjects();
 
     return (
         <div>
             <h2 className="text-2xl font-semibold text-center text-portfolio mb-10">Manage Projects</h2>
-            <ProjectManagement data={projects} />
+            <ProjectManagement data={projects} meta={meta}/>
         </div>
     );
 };

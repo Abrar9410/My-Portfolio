@@ -38,12 +38,16 @@ export const getAllProjects = async (query?: string) => {
 };
 
 export const getSingleProject = async (projectTitle: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${projectTitle}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${projectTitle}`, {
+        next: {
+            tags: [`PROJECT-${projectTitle.trim().replace(/\s+/g, "-").replace(/[^\w-]/g, "") }`]
+        }
+    });
 
     return await res.json();
 };
 
-export const updateProject = async (projectId: string, payload: FormData) => {
+export const updateProject = async (projectId: string, projectTitle: string, payload: FormData) => {
     const token = await getCookie("token");
     if (!token) {
         return {
@@ -61,12 +65,13 @@ export const updateProject = async (projectId: string, payload: FormData) => {
 
     if (res.ok) {
         revalidateTag("PROJECTS");
+        revalidateTag(`PROJECT-${projectTitle.trim().replace(/\s+/g, "-").replace(/[^\w-]/g, "") }`);
     };
 
     return await res.json();
 };
 
-export const deleteProject = async (projectId: string) => {
+export const deleteProject = async (projectId: string, projectTitle: string) => {
     const token = await getCookie("token");
     if (!token) {
         return {
@@ -83,6 +88,7 @@ export const deleteProject = async (projectId: string) => {
 
     if (res.ok) {
         revalidateTag("PROJECTS");
+        revalidateTag(`PROJECT-${projectTitle.trim().replace(/\s+/g, "-").replace(/[^\w-]/g, "")}`);
     };
 
     return await res.json();

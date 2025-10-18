@@ -11,12 +11,12 @@ export const metadata: Metadata = {
 
 const ManageBlogsPage = async () => {
 
-    const { data: blogs } = await getAllBlogs();
+    const { data: blogs, meta } = await getAllBlogs();
 
     return (
         <div>
             <h2 className="text-2xl font-semibold text-center text-portfolio mb-10">Manage Blogs</h2>
-            <BlogManagement data={blogs}/>
+            <BlogManagement data={blogs} meta={meta}/>
         </div>
     );
 };

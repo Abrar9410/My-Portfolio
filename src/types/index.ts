@@ -43,3 +43,10 @@ export interface IBlog {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export interface IMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPage: number;
+};
