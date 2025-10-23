@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import Banner from "@/components/Banner";
 import { Metadata } from "next";
 
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const HomePage = () => {
   return (
     <div>
-      <Button className="text-foreground bg-portfolio">HomePage</Button>
+      <Banner />
     </div>
   );
 };

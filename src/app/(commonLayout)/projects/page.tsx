@@ -15,7 +15,7 @@ const ProjectsPage = async () => {
     const { data: projects } = await getAllProjects();
 
     return (
-        <div>
+        <>
             <Heading
                 title="My Projects"
                 subtitle="A showcase of my work! To suggest improvements or discuss new project, feel free to reach out."
@@ -30,7 +30,7 @@ const ProjectsPage = async () => {
                         </h3>
                 }
             </div>
-        </div>
+        </>
     );
 };
 

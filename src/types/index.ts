@@ -2,12 +2,33 @@
 
 // export type TRole = "ADMIN" | "USER";
 
+export interface ISkills {
+  languages: string[];
+  frontend: string[];
+  backend: string[];
+  databases: string[];
+  authentication: string[];
+  odm_orm: string[];
+  cloud_devOps: string[];
+  payments: string[];
+  devTools: string[];
+  concepts: string[];
+};
+
+export interface IAbout {
+  storyHTML: string;
+  skills: ISkills;
+  languages: string[];
+  certifications: string[];
+};
+
 export interface IUser {
   _id: string;
   name: string;
   email: string;
   password?: string;
   picture?: string;
+  about?: IAbout;
   // isVerified?: boolean;
   // role: TRole;
   createdAt?: string;
