@@ -2,12 +2,12 @@ import { Download, Mail, MoveRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import DesignationText from "./DesignationText";
-import { Button } from "./ui/button";
+
 
 
 const Banner = () => {
     return (
-        <section className="flex max-md:flex-col justify-between items-center max-md:gap-8 py-4 sm:py-6 md:py-8 lg:py-10 xl:py-12">
+        <section className="bg-muted rounded-xl flex max-md:flex-col justify-between items-center max-md:gap-8 pt-4 sm:pt-6 md:py-8 lg:py-10 xl:py-12 2xl:py-16">
             
             <div className="flex flex-col max-md:items-center max-md:text-center gap-1 min-[500px]:gap-2 md:gap-3 xl:gap-4 md:w-1/2 py-4 md:pl-4">
                 <p className="min-[300px]:text-lg min-[400px]:text-xl xl:text-2xl 2xl:text-3xl font-semibold">Hello, I&apos;m</p>
@@ -68,8 +68,8 @@ const Banner = () => {
                 </div>
             </div>
 
-            <div className="w-full md:w-1/2 h-min flex justify-center items-center 2xl:bg-black/20 rounded-xl">
-                <div className="w-[500px] h-[500px] mx-auto overflow-hidden">
+            <div className="w-full md:w-1/2 flex justify-center items-center 2xl:bg-black/20 rounded-xl">
+                <div className="sm:w-1/2 md:w-2/3 mx-auto overflow-hidden">
                     <Image
                         src="https://res.cloudinary.com/dbvnl644p/image/upload/v1761236020/4p5b35j1uie-1759261529192-abrarshahriar0-jpg.png"
                         alt="Abrar Shahriar"

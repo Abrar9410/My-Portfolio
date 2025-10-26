@@ -27,6 +27,7 @@ export const icons: Record<string, string> = {
     sql: "https://res.cloudinary.com/dbvnl644p/image/upload/v1760963492/sql-svgrepo-com_tnebci.svg",
     postgresql: "https://res.cloudinary.com/dbvnl644p/image/upload/v1760902017/postgresql-logo-svgrepo-com_bqnqpv.svg",
     prisma: "https://res.cloudinary.com/dbvnl644p/image/upload/v1760902014/light-prisma-svgrepo-com_y9pgpo.svg",
+    postman: "https://res.cloudinary.com/dbvnl644p/image/upload/v1761326544/postman-icon_hswygw.svg",
     axios: "https://res.cloudinary.com/dbvnl644p/image/upload/v1760979487/Axios_zni5ou.svg",
     tanstack_query: "https://res.cloudinary.com/dbvnl644p/image/upload/v1760979488/tanstack_lstqgv.svg",
     redux: "https://res.cloudinary.com/dbvnl644p/image/upload/v1760902012/redux-svgrepo-com_di8rkk.svg",

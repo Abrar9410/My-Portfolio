@@ -1,4 +1,5 @@
 import Banner from "@/components/Banner";
+import WhoIAm from "@/components/WhoIAm";
 import { Metadata } from "next";
 
 
@@ -12,6 +13,7 @@ const HomePage = () => {
   return (
     <div>
       <Banner />
+      <WhoIAm />
     </div>
   );
 };
