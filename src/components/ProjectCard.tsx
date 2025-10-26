@@ -8,7 +8,7 @@ import { Badge } from "./ui/badge";
 
 const ProjectCard = ({ project }: { project: IProject }) => {
     return (
-        <article className="overflow-hidden bg-card text-card-foreground rounded-lg border border-portfolio shadow-sm transition hover:shadow-lg">
+        <article className="flex flex-col overflow-hidden bg-card text-card-foreground rounded-lg border border-portfolio shadow-sm transition hover:shadow-lg">
             <Image
                 src={project.thumbnail}
                 alt="Blog Thumbnail"
@@ -16,7 +16,7 @@ const ProjectCard = ({ project }: { project: IProject }) => {
                 blurDataURL={project.thumbnail}
                 width={650}
                 height={500}
-                className="h-auto w-full object-fill"
+                className="w-full flex-1 object-fill"
             />
 
             <div className="p-4">

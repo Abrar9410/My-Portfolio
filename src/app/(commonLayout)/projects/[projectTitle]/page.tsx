@@ -81,7 +81,7 @@ const SingleProjectPage = async ({ params }: { params: Promise<{ projectTitle: s
                                     href={project.live_link} target="_blank"
                                     className="w-max flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:underline"
                                 >
-                                    <ExternalLink size={14} /> Live Link
+                                    <ExternalLink size={14} /> Live Demo
                                 </Link>
                             </div>
                         </div>

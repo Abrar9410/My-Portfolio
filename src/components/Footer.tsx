@@ -6,7 +6,7 @@ import { Separator } from "./ui/separator";
 
 const Footer = () => {
     return (
-        <footer className="bg-foreground dark:bg-black border-t pt-6 pb-4 mt-7 sm:mt-9 md:mt-12 lg:mt-14 2xl:mt-16">
+        <footer className="bg-foreground dark:bg-black border-t pt-6 pb-4 mt-8 sm:mt-10 md:mt-12 lg:mt-14 xl:mt-16 2xl:mt-20">
             <div className="w-11/12 md:w-10/12 xl:w-9/12 mx-auto flex max-[400px]:flex-col max-sm:gap-8 max-sm:justify-evenly justify-between flex-wrap">
                 
                 <div className="max-sm:w-full sm:w-1/3 max-sm:flex max-sm:flex-col max-sm:items-center max-sm:px-6">

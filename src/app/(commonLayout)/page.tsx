@@ -1,4 +1,5 @@
 import Banner from "@/components/Banner";
+import Certifications from "@/components/Certifications";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import TechnicalSkills from "@/components/TechnicalSkills";
 import WhoIAm from "@/components/WhoIAm";
@@ -13,12 +14,13 @@ export const metadata: Metadata = {
 
 const HomePage = () => {
   return (
-    <div>
+    <>
       <Banner />
       <WhoIAm />
       <TechnicalSkills/>
       <FeaturedProjects/>
-    </div>
+      <Certifications/>
+    </>
   );
 };
 

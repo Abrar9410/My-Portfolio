@@ -176,9 +176,9 @@ const ProjectManagement = ({ data, meta }: ProjectManagementProps) => {
                                             />
                                         </TableCell>
                                         <TableCell>{project.title}</TableCell>
-                                        <TableCell>{project.overview}</TableCell>
+                                        <TableCell className="max-w-lg">{project.overview}</TableCell>
                                         <TableCell>{format(project.createdAt as string, "PP")}</TableCell>
-                                        <TableCell className="min-h-[78px] flex justify-center items-center gap-1 flex-wrap">
+                                        <TableCell className="max-w-lg flex justify-center items-center gap-1 flex-wrap">
                                             {project.technologies.map((tech: string, idx: number) => (
                                                 <Badge key={idx} variant="secondary">
                                                     {tech}
@@ -188,7 +188,7 @@ const ProjectManagement = ({ data, meta }: ProjectManagementProps) => {
                                         <TableCell>{project.featured ? "✅" : "❌"}</TableCell>
                                         <TableCell>
                                             <div className="flex flex-col justify-center items-center gap-3">
-                                                <Link href={`/projects/${project._id}`} className="w-max hover:scale-110">
+                                                <Link href={`/projects/${project.title}`} className="w-max hover:scale-110">
                                                     <Eye size={18} />
                                                 </Link>
                                                 <Link href={`/dashboard/manage-projects/update/${project.title}`} className="w-max hover:scale-110">

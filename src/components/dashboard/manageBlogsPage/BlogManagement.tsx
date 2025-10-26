@@ -182,7 +182,7 @@ const BlogManagement = ({data, meta}: BlogManagementProps) => {
                                             />
                                         </TableCell>
                                         <TableCell>{blog.title}</TableCell>
-                                        <TableCell>{blog.overview}</TableCell>
+                                        <TableCell className="max-w-lg">{blog.overview}</TableCell>
                                         <TableCell>{format(blog.createdAt as string, "PP")}</TableCell>
                                         <TableCell>{blog.tags.join(", ")}</TableCell>
                                         <TableCell>{blog.views}</TableCell>

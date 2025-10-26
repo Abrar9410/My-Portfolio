@@ -104,7 +104,7 @@ const skills = [
 
 const TechnicalSkills = () => {
     return (
-        <section className="mt-8 sm:mt-10 md:mt-12 lg:mt-14 2xl:mt-16">
+        <section className="mt-8 sm:mt-10 md:mt-12 lg:mt-14 xl:mt-16 2xl:mt-20">
             <h1 className="text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold dark:text-portfolio">
                 Technical Skills
             </h1>
@@ -129,7 +129,7 @@ const TechnicalSkills = () => {
                 }
             </div>
 
-            <p className="dark:text-portfolio text-sm text-center mt-6">
+            <p className="text-muted-foreground dark:text-portfolio text-sm text-center mt-6">
                 * constantly polishing and expanding my skill-set
             </p>
         </section>

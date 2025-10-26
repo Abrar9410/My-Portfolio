@@ -133,5 +133,5 @@
 }
 
 .prose h3 {
-  @apply text-lg font-semibold dark:text-portfolio
+  @apply text-lg dark:text-portfolio mt-4
 }

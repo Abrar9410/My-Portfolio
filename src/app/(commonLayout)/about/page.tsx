@@ -66,7 +66,7 @@ const AboutPage = async () => {
                     </p>
                     <br /><br />
 
-                    <h2 className="text-xl sm:text-2xl lg:text-3xl dark:text-portfolio font-bold">Certifications</h2>
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl dark:text-portfolio font-bold">Courses & Certificates</h2>
                     <br />
                     <div className="p-4 border dark:bg-black rounded-xl shadow-lg flex max-lg:flex-col-reverse max-lg:items-center gap-4 justify-between">
                         <div className="flex flex-col justify-between max-lg:gap-6">

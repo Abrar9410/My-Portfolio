@@ -7,7 +7,7 @@ import DesignationText from "./DesignationText";
 
 const Banner = () => {
     return (
-        <section className="bg-muted rounded-xl flex max-md:flex-col justify-between items-center max-md:gap-8 pt-4 sm:pt-6 md:py-8 lg:py-10 xl:py-12 2xl:py-16">
+        <section className="flex max-md:flex-col justify-between items-center max-md:gap-8 pt-4 sm:pt-6 md:py-8 lg:py-10 xl:py-12 2xl:py-16">
             
             <div className="flex flex-col max-md:items-center max-md:text-center gap-1 min-[500px]:gap-2 md:gap-3 xl:gap-4 md:w-1/2 py-4 md:pl-4">
                 <p className="min-[300px]:text-lg min-[400px]:text-xl xl:text-2xl 2xl:text-3xl font-semibold">Hello, I&apos;m</p>
