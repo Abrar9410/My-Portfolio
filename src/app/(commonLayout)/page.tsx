@@ -1,4 +1,6 @@
 import Banner from "@/components/Banner";
+import FeaturedProjects from "@/components/FeaturedProjects";
+import TechnicalSkills from "@/components/TechnicalSkills";
 import WhoIAm from "@/components/WhoIAm";
 import { Metadata } from "next";
 
@@ -14,6 +16,8 @@ const HomePage = () => {
     <div>
       <Banner />
       <WhoIAm />
+      <TechnicalSkills/>
+      <FeaturedProjects/>
     </div>
   );
 };
