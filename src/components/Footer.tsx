@@ -10,7 +10,7 @@ const Footer = () => {
             <div className="w-11/12 md:w-10/12 xl:w-9/12 mx-auto flex max-[400px]:flex-col max-sm:gap-8 max-sm:justify-evenly justify-between flex-wrap">
                 
                 <div className="max-sm:w-full sm:w-1/3 max-sm:flex max-sm:flex-col max-sm:items-center max-sm:px-6">
-                    <h3 className="flex items-center gap-2 2xl:gap-4 font-bold text-xl min-[900px]:text-2xl 2xl:text-3xl text-portfolio">
+                    <h3 className="flex items-center gap-2 2xl:gap-3 font-bold text-xl min-[900px]:text-2xl 2xl:text-3xl text-portfolio">
                         <Image src="/my_logo.PNG" alt="Logo" width={60} height={40} priority
                             className="w-[30px] h-[20px] md:w-[35px] md:h-[23px] xl:w-[40px] xl:h-[26px] 2xl:w-[45px] 2xl:h-[30px]"
                         />

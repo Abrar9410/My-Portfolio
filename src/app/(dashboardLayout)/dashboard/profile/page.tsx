@@ -8,6 +8,7 @@ import { getMe } from "@/actions/user";
 import ProfileField from "@/components/dashboard/profilePage/ProfileField";
 import Image from "next/image";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import PageLoading from "@/app/loading";
 
 
 export const metadata: Metadata = {
@@ -19,6 +20,10 @@ export const metadata: Metadata = {
 const ProfilePage = async () => {
 
     const user = await getMe();
+
+    if (!user) {
+        return <PageLoading/>;
+    };
 
     return (
         <div className="p-4 sm:p-6">

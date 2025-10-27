@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const BlogCard = ({ blog }: { blog: IBlog }) => {
     return (
-        <article className="overflow-hidden bg-card text-card-foreground rounded-lg border border-portfolio shadow-sm transition hover:shadow-lg">
+        <article className="flex flex-col overflow-hidden bg-card text-card-foreground rounded-lg border border-portfolio shadow-sm transition hover:shadow-lg">
             <Image
                 src={blog.thumbnail}
                 alt="Blog Thumbnail"
@@ -15,7 +15,7 @@ const BlogCard = ({ blog }: { blog: IBlog }) => {
                 blurDataURL={blog.thumbnail}
                 width={650}
                 height={500}
-                className="h-64 w-full object-fill"
+                className="w-full flex-1 object-fill"
             />
 
             <div className="p-4 sm:p-6">

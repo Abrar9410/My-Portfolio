@@ -138,7 +138,7 @@ const ProjectManagement = ({ data, meta }: ProjectManagementProps) => {
             </div>
 
             <div className="flex justify-end mb-4">
-                <Link href="/dashboard/create-blog">
+                <Link href="/dashboard/add-project">
                     <Button className="bg-portfolio text-black cursor-pointer flex justify-center items-center gap-1">
                         <Plus /> Add New Project
                     </Button>
@@ -155,7 +155,7 @@ const ProjectManagement = ({ data, meta }: ProjectManagementProps) => {
                                 <TableHead>Thumbnail</TableHead>
                                 <TableHead>Title</TableHead>
                                 <TableHead>Overview</TableHead>
-                                <TableHead>Published on</TableHead>
+                                <TableHead>Added on</TableHead>
                                 <TableHead>Technologies</TableHead>
                                 <TableHead>Featured</TableHead>
                                 <TableHead>Actions</TableHead>
