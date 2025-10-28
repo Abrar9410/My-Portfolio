@@ -18,7 +18,6 @@ import {
     AlignRight,
     Highlighter,
     Underline,
-    Link,
 } from "lucide-react";
 import { useCallback } from "react";
 
@@ -122,7 +121,7 @@ const TiptapMenuBar = ({editor}: {editor: Editor}) => {
                 </Button>
             ))}
             <Button type="button" size="sm" variant="outline" onClick={setLink}>
-                <Link size={16} />
+                <LinkIcon size={16} />
             </Button>
         </div>
     );

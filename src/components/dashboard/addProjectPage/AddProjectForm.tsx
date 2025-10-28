@@ -121,8 +121,8 @@ export default function AddProjectForm() {
             } else {
                 toast.error(res.message, { id: toastId });
             }
-        } catch (err) {
-            console.error(err);
+        } catch {
+            // console.error(err);
             toast.error("An error occurred while adding the project", { id: toastId });
         } finally {
             setSubmitting(false);

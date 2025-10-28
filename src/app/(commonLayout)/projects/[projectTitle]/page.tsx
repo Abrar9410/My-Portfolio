@@ -1,7 +1,8 @@
-import { getSingleProject } from "@/actions/project";
+import { getAllProjects, getSingleProject } from "@/actions/project";
 import BackButton from "@/components/BackButton";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { IProject } from "@/types";
 import { ExternalLink, Github, Wrench, Link as Links } from "lucide-react";
 // import { format } from "date-fns";
 import Image from "next/image";
@@ -17,6 +18,16 @@ export const generateMetadata = async ({ params }: { params: Promise<{ projectTi
         title: project?.title || "Not Found",
         description: project?.detailsHTML || ""
     };
+};
+
+export const generateStaticParams = async () => {
+    const {data: projects} = await getAllProjects();
+
+    return projects.map((project: IProject) => (
+        {
+            projectTitle: project.title
+        }
+    ));
 };
 
 

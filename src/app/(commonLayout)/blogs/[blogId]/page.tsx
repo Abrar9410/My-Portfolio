@@ -1,5 +1,6 @@
 import { getSingleBlog } from "@/actions/blog";
 import BackButton from "@/components/BackButton";
+import { IBlog } from "@/types";
 import { format } from "date-fns";
 import Image from "next/image";
 
@@ -13,6 +14,17 @@ export const generateMetadata = async ({ params }: { params: Promise<{ blogId: s
         description: blog?.contentHTML || ""
     };
 };
+
+export const generateStaticParams = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs`);
+    const {data: blogs} = await res.json();
+
+    return blogs.map((blog: IBlog) => (
+        {
+            blogId: blog._id
+        }
+    ));
+}; 
 
 
 

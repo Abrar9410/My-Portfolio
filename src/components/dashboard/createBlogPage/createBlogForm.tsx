@@ -102,8 +102,8 @@ export default function CreateBlogForm() {
             } else {
                 toast.error(res.message, { id: toastId });
             }
-        } catch (err) {
-            console.error(err);
+        } catch {
+            // console.error(err);
             toast.error("An error occurred while creating the blog", { id: toastId });
         } finally {
             setSubmitting(false);
