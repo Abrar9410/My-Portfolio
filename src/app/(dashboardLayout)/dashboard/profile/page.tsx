@@ -7,7 +7,6 @@ import { ChangePassword } from "@/components/modals/ChangePassword";
 import { getMe } from "@/actions/user";
 import ProfileField from "@/components/dashboard/profilePage/ProfileField";
 import Image from "next/image";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import PageLoading from "@/app/loading";
 
 
@@ -22,7 +21,7 @@ const ProfilePage = async () => {
     const user = await getMe();
 
     if (!user) {
-        return <PageLoading/>;
+        return <PageLoading />;
     };
 
     return (
@@ -49,33 +48,22 @@ const ProfilePage = async () => {
                     </div>
 
                     <Separator />
-
+                    <p className="text-red-500 text-xs text-center">
+                        Buttons are disabled for security
+                    </p>
                     {/* Action Buttons */}
-                    <div className="flex flex-col sm:flex-row justify-between max-sm:gap-4">
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <EditProfile user={user}>
-                                    <Button disabled variant="default" className="w-full sm:w-40 border border-white bg-[#151925] text-white hover:bg-white hover:text-[#151925] cursor-pointer">
-                                        Edit Profile
-                                    </Button>
-                                </EditProfile>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p className="text-red-500">This button is temporarily Disabled</p>
-                            </TooltipContent>    
-                        </Tooltip>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <ChangePassword>
-                                    <Button disabled variant="outline" className="w-full sm:w-40 cursor-pointer">
-                                        Change Password
-                                    </Button>
-                                </ChangePassword>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p className="text-red-500">This button is temporarily Disabled</p>
-                            </TooltipContent>    
-                        </Tooltip>
+                    <div className="flex flex-col sm:flex-row justify-between items-center max-sm:gap-4">
+                        <EditProfile user={user}>
+                            <div className="w-full sm:w-40 px-4 py-2 rounded-lg border bg-[#151925]/70 text-white/70 text-sm hover:bg-white hover:text-[#151925] cursor-not-allowed pointer-events-none">
+                                Edit Profile
+                            </div>
+                        </EditProfile>
+                        
+                        <ChangePassword>
+                            <Button disabled variant="outline" className="w-full sm:w-40 cursor-pointer">
+                                Change Password
+                            </Button>
+                        </ChangePassword>
                     </div>
                 </CardContent>
             </Card>

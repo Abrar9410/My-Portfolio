@@ -11,8 +11,8 @@ const Certifications = () => {
                 Earned certificates from various courses throughout my learning journey
             </p>
 
-            <div className="flex max-md:flex-col justify-center items-center gap-6">
-                <div className="flex-1 flex flex-col items-center gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col items-center gap-2">
                     <Image
                         src="https://res.cloudinary.com/dbvnl644p/image/upload/v1760980770/Certificate-PH-L1_loftes.png"
                         alt="PH L1 Course Certificate"
@@ -25,14 +25,17 @@ const Certifications = () => {
                         Complete Web Development Course With Programming Hero
                     </p>
                 </div>
-                <div className="flex-1 flex flex-col items-center gap-2">
-                    <Image
+                <div className="flex flex-col items-center gap-2">
+                    {/* <Image
                         src="https://res.cloudinary.com"
-                        alt="Certificate Coming Soon"
+                        alt="Certificate Coming Soon..."
                         width={900}
                         height={695}
                         className="w-full h-auto rounded-xl border-2 border-portfolio"
-                    />
+                    /> */}
+                    <div className="flex-1 w-full flex flex-col justify-center items-center rounded-xl border-2 border-portfolio">
+                        <span>Certificate Coming Soon...</span>
+                    </div>
                     <p className="text-center">(April 2025 - Ongoing)</p>
                     <p className="lg:text-lg text-center font-semibold">
                         Next Level Web Development By Programming Hero

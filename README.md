@@ -1,4 +1,4 @@
-# 🧑‍💻 Abrar Shahriar — Developer Portfolio
+# Abrar Shahriar — Developer Portfolio
 
 A modern, responsive portfolio website built with **Next.js**, **TypeScript**, **Tailwind CSS**, and **shadcn/ui**, showcasing my projects, technical expertise, and professional journey as a **Full Stack (MERN) Web Developer**.  
 This portfolio reflects my focus on **clean design**, **functional interactivity**, and **performance-driven web development**.
@@ -35,7 +35,7 @@ Key design goals:
 
 ## 🧱 Features
 
-### 💼 Projects Section
+### 💼 Projects Page
 - Showcases all my major projects with details on:
   - Key technologies used  
   - Features and challenges  
@@ -43,12 +43,12 @@ Key design goals:
 - Each project has a **“View Details”** page with deeper insights.  
 - Implemented dynamic routing for project details using **Next.js App Router**.
 
-### 📝 Blog Section
+### 📝 Blogs Page
 - Built-in blog management feature powered by **Tiptap Editor**.  
 - Blogs support formatted text, inline images, and rich HTML rendering.  
 - Uses **Incremental Static Regeneration (ISR)** and **Tag-based Revalidation** for optimized performance and content freshness.
 
-### 📬 Contact Section
+### 📬 Contact Page
 - Interactive contact form integrated with **EmailJS**.  
 - Uses **react-hook-form** + **zod validation** + **shadcn/ui Form** for robust and accessible input handling.  
 - Sends form data directly to my email inbox without a custom backend.
@@ -59,7 +59,7 @@ Key design goals:
 - Custom **SEO metadata** for better visibility.
 
 ### 🌗 Dark Mode
-- Custom dark/light mode toggle with fully Tailwind-based theme system (not dependent on DaisyUI themes).
+- Custom dark/light mode toggle implemented with shadcn/ui.
 
 ### 🧭 Navigation
 - Sticky navbar for quick access to sections.  

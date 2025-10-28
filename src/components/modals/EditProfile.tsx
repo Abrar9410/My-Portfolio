@@ -83,7 +83,7 @@ export function EditProfile({ children, user }: IProps) {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
+            <DialogTrigger>
                 {children}
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
