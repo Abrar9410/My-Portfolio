@@ -170,8 +170,8 @@ const ProjectManagement = ({ data, meta }: ProjectManagementProps) => {
                                                 src={project.thumbnail}
                                                 alt="Thumbnail"
                                                 width={100}
-                                                height={70}
-                                                className="w-[100px] h-[70px] mx-auto"
+                                                height={100}
+                                                className="w-[100px] h-auto mx-auto"
                                             />
                                         </TableCell>
                                         <TableCell>{project.title}</TableCell>

@@ -177,8 +177,8 @@ const BlogManagement = ({data, meta}: BlogManagementProps) => {
                                                 src={blog.thumbnail}
                                                 alt="Thumbnail"
                                                 width={100}
-                                                height={70}
-                                                className="w-[100px] h-[70px] mx-auto"
+                                                height={100}
+                                                className="w-[100px] h-auto mx-auto"
                                             />
                                         </TableCell>
                                         <TableCell>{blog.title}</TableCell>

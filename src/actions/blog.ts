@@ -21,7 +21,7 @@ export const createBlog = async (payload: FormData) => {
         });
 
         if (res.ok) {
-            revalidateTag("BLOGS");
+            revalidateTag("BLOGS", { expire: 0 });
         };
          
         return await res.json();
@@ -64,8 +64,8 @@ export const editBlog = async (blogId: string, payload: FormData) => {
     });
 
     if (res.ok) {
-        revalidateTag("BLOGS");
-        revalidateTag(`BLOG-${blogId}`);
+        revalidateTag("BLOGS", { expire: 0 });
+        revalidateTag(`BLOG-${blogId}`, { expire: 0 });
     };
 
     return await res.json();
@@ -87,8 +87,8 @@ export const deleteBlog = async (blogId: string) => {
     });
 
     if (res.ok) {
-        revalidateTag("BLOGS");
-        revalidateTag(`BLOG-${blogId}`);
+        revalidateTag("BLOGS", { expire: 0 });
+        revalidateTag(`BLOG-${blogId}`, { expire: 0 });
     };
 
     return await res.json();

@@ -21,7 +21,7 @@ export const addProject = async (payload: FormData) => {
         });
 
         if (res.ok) {
-            revalidateTag("PROJECTS");
+            revalidateTag("PROJECTS", { expire: 0 });
         };
          
         return await res.json();
@@ -64,8 +64,8 @@ export const updateProject = async (projectId: string, projectTitle: string, pay
     });
 
     if (res.ok) {
-        revalidateTag("PROJECTS");
-        revalidateTag(`PROJECT-${projectTitle.trim().replace(/\s+/g, "-").replace(/[^\w-]/g, "") }`);
+        revalidateTag("PROJECTS", { expire: 0 });
+        revalidateTag(`PROJECT-${projectTitle.trim().replace(/\s+/g, "-").replace(/[^\w-]/g, "") }`, { expire: 0 });
     };
 
     return await res.json();
@@ -87,8 +87,8 @@ export const deleteProject = async (projectId: string, projectTitle: string) => 
     });
 
     if (res.ok) {
-        revalidateTag("PROJECTS");
-        revalidateTag(`PROJECT-${projectTitle.trim().replace(/\s+/g, "-").replace(/[^\w-]/g, "")}`);
+        revalidateTag("PROJECTS", { expire: 0 });
+        revalidateTag(`PROJECT-${projectTitle.trim().replace(/\s+/g, "-").replace(/[^\w-]/g, "")}`, { expire: 0 });
     };
 
     return await res.json();
