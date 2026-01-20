@@ -19,7 +19,7 @@ const BlogsPage = async () => {
         <>
             <Heading
                 title="My Blogs"
-                subtitle="Welcome to my blogs! Here I have tried to share my little knowledge and own thoughts. Hope, you enjoy!"
+                subtitle="I have not started writing blogs yet as I am currently more focused on my learning and projects!"
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
                 {

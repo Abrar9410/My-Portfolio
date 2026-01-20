@@ -32,9 +32,9 @@ import { Separator } from "./ui/separator";
 
 const navigationLinks = [
   { href: "/", label: "Home", role: "PUBLIC" },
-  { href: "/about", label: "About", role: "PUBLIC" },
+  { href: "/about", label: "About Me", role: "PUBLIC" },
   { href: "/projects", label: "Projects", role: "PUBLIC" },
-  { href: "/blogs", label: "Blogs", role: "PUBLIC" },
+  // { href: "/blogs", label: "Blogs", role: "PUBLIC" },
   { href: "/contact", label: "Contact", role: "PUBLIC" },
   { href: "/dashboard", label: "Manage", role: "OWNER" },
 ];
@@ -141,11 +141,10 @@ export default function Navbar() {
           </NavigationMenu>
         </div>
         {/* Right side */}
-        <div className="flex items-center gap-3">
+        <div className={`flex items-center justify-end ${user?.email ? "gap-3" : ""}`}>
           <ThemeToggler />
           {
-            !user?.email ?
-              <Link href="/login" className="hover:underline text-sm">Login</Link> :
+            user?.email &&
               <Popover>
                 <Tooltip>
                   <TooltipTrigger>
