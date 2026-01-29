@@ -1,7 +1,7 @@
 "use server"
-
 import { revalidateTag } from "next/cache";
-import { getCookie } from "./cookies";
+import { getCookie } from "../lib/cookies-tokens";
+
 
 
 export const addProject = async (payload: FormData) => {

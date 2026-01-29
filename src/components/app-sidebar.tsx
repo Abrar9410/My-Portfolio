@@ -19,7 +19,6 @@ import Link from "next/link";
 import Image from "next/image";
 import ConfirmationAlert from "./ConfirmationAlert";
 import { /*ChartBarStacked,*/ CircleUser, ImagePlus, LogOut, MonitorCog, NotebookPen, NotepadText } from "lucide-react";
-import { useUser } from "@/contexts/UserContext";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/actions/auth";
 import { toast } from "sonner";
@@ -66,7 +65,6 @@ const navMain = [
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
-  const { setUser } = useUser();
   const router = useRouter();
   const location = usePathname();
 
@@ -74,7 +72,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const toastId = toast.loading("Logging Out...");
     const res = await logout();
     if (res.success) {
-      setUser(null);
       toast.success("Logged Out Successfully", { id: toastId });
       router.push("/");
     } else {

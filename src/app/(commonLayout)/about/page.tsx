@@ -86,6 +86,25 @@ const AboutPage = async () => {
                             className="w-full lg:w-1/2 xl:w-1/3 h-auto rounded-xl border border-portfolio"
                         />
                     </div>
+                    <br />
+                    <div className="p-4 border dark:bg-black rounded-xl shadow-lg flex max-lg:flex-col-reverse max-lg:items-center gap-4 justify-between">
+                        <div className="flex flex-col justify-between max-lg:gap-6">
+                            <div className="flex-1">
+                                <h3 className="text-lg md:text-xl font-semibold">
+                                    Next Level Web Development
+                                </h3>
+                                <p className="text-muted-foreground">by Programming Hero</p>
+                            </div>
+                            <p>April 2025 - January 2026</p>
+                        </div>
+                        <Image
+                            src="https://res.cloudinary.com/dbvnl644p/image/upload/v1769691706/Certificate-PH-L2_mayir8.png"
+                            alt="PHero-Level-2-Certificate"
+                            width={600}
+                            height={464}
+                            className="w-full lg:w-1/2 xl:w-1/3 h-auto rounded-xl border border-portfolio"
+                        />
+                    </div>
                 </div>
                 <div>
                     <h2 className="sm:text-center text-xl sm:text-2xl lg:text-3xl dark:text-portfolio font-bold">Skills</h2>

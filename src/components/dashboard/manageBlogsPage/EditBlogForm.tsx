@@ -104,13 +104,13 @@ export default function EditBlogForm({blog}: {blog: IBlog}) {
             if (res.success) {
                 toast.success(res.message, { id: toastId });
                 setContentHTML("");
-                form.reset();
                 router.push(`/blogs/${blog._id}`);
             } else {
                 toast.error(res.message, { id: toastId });
-            }
-        } catch {
-            toast.error("An error occurred while editing the blog", { id: toastId });
+            };
+        } catch (err: any) {
+            // console.error(err);
+            toast.error(err.message || err.data.message || "An error occurred! Couldn't edit Blog.", { id: toastId });
         } finally {
             setSubmitting(false);
         }

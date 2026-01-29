@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -123,14 +122,13 @@ export default function UpdateProjectForm({project}: {project: IProject}) {
             if (res.success) {
                 toast.success(res.message, { id: toastId });
                 setContentHTML("");
-                form.reset();
                 router.push("/projects");
             } else {
                 toast.error(res.message, { id: toastId });
-            }
-        } catch {
+            };
+        } catch (err: any) {
             // console.error(err);
-            toast.error("An error occurred while adding the project", { id: toastId });
+            toast.error(err.message || err.data.message || "An error occurred! Couldn't update Project.", { id: toastId });
         } finally {
             setSubmitting(false);
         }

@@ -15,16 +15,16 @@ export const generateMetadata = async ({ params }: { params: Promise<{ blogId: s
     };
 };
 
-export const generateStaticParams = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs`);
-    const {data: blogs} = await res.json();
+// export const generateStaticParams = async () => {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs`);
+//     const {data: blogs} = await res.json();
 
-    return blogs.map((blog: IBlog) => (
-        {
-            blogId: blog._id
-        }
-    ));
-}; 
+//     return blogs.map((blog: IBlog) => (
+//         {
+//             blogId: blog._id
+//         }
+//     ));
+// }; 
 
 
 

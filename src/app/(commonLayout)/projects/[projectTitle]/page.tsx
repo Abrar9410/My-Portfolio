@@ -20,15 +20,15 @@ export const generateMetadata = async ({ params }: { params: Promise<{ projectTi
     };
 };
 
-export const generateStaticParams = async () => {
-    const {data: projects} = await getAllProjects();
+// export const generateStaticParams = async () => {
+//     const {data: projects} = await getAllProjects();
 
-    return projects.map((project: IProject) => (
-        {
-            projectTitle: project.title
-        }
-    ));
-};
+//     return projects.map((project: IProject) => (
+//         {
+//             projectTitle: project.title
+//         }
+//     ));
+// };
 
 
 const SingleProjectPage = async ({ params }: { params: Promise<{ projectTitle: string }> }) => {
