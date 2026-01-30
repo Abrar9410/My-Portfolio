@@ -28,11 +28,13 @@ export interface IUser {
   email: string;
   password?: string;
   picture?: string;
+  phone?: string;
+  address?: string;
   about?: IAbout;
   // isVerified?: boolean;
   // role: TRole;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export interface IProject {
@@ -48,8 +50,8 @@ export interface IProject {
   featured: boolean;
   github_repo: string;
   live_link: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export interface IBlog {
@@ -61,8 +63,8 @@ export interface IBlog {
   contentHTML: string;
   tags: string[];
   views: number;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export interface IMeta {

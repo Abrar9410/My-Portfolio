@@ -1,6 +1,5 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"
-
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -19,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import Password from "../ui/Password";
+import { changePassword } from "@/actions/auth";
 
 
 interface IProps {
@@ -40,39 +40,50 @@ const changePasswordSchema = z
             .regex(/^(?=.*\d)/, {
                 message: "Password must contain at least 1 number.",
             }),
+        confirmPassword: z.string()
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+        message: "Password do not match",
+        path: ["confirmPassword"],
     });
 
-export function ChangePassword({ children }: IProps) {
+const ChangePassword = ({ children }: IProps) => {
 
     const [open, setOpen] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
 
     const form = useForm<z.infer<typeof changePasswordSchema>>({
         resolver: zodResolver(changePasswordSchema),
         defaultValues: {
             oldPassword: "",
-            newPassword: ""
+            newPassword: "",
+            confirmPassword: ""
         },
     });
 
     const onSubmit = async (data: z.infer<typeof changePasswordSchema>) => {
-        const toastId = toast.loading("Saving Info...")
+        const toastId = toast.loading("Saving Info...");
+        setSubmitting(true);
+
         const passwordInfo = {
             oldPassword: data.oldPassword,
             newPassword: data.newPassword,
         };
 
         try {
-            // const res = await changePassword(passwordInfo);
-            // if (res.success) {
-            //     toast.success("Password Changed Successfully! You Must Use your New Password the next time you Login.",
-            //         { id: toastId }
-            //     );
-            //     setOpen(false);
-            // } else {
-            //     toast.error(res.message, {id: toastId});
-            // };
+            const res = await changePassword(passwordInfo);
+            if (res.success) {
+                toast.success("Password Changed Successfully! You Must Use your New Password the next time you Login.",
+                    { id: toastId }
+                );
+                setOpen(false);
+            } else {
+                toast.error(res.message || "Sorry! Password could not be changed.", {id: toastId});
+            };
         } catch (error: any) {
-            toast.error(error.data.message, { id: toastId });
+            toast.error(error.data.message || error.message || "Sorry! Password could not be changed.", { id: toastId });
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -124,12 +135,38 @@ export function ChangePassword({ children }: IProps) {
                                     </FormItem>
                                 )}
                             />
+                            <FormField
+                                control={form.control}
+                                name="confirmPassword"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Confirm Password</FormLabel>
+                                        <FormControl>
+                                            <Password {...field} />
+                                        </FormControl>
+                                        <FormDescription className="sr-only">
+                                            Confirm your new Password.
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
                         <DialogFooter>
                             <DialogClose asChild>
-                                <Button variant="outline" className="cursor-pointer">Cancel</Button>
+                                <Button type="button" variant="outline" className="cursor-pointer">Cancel</Button>
                             </DialogClose>
-                            <Button type="submit" className="cursor-pointer text-white">Save changes</Button>
+                            <Button
+                                type="submit"
+                                className="w-32 cursor-pointer"
+                                disabled={submitting}
+                            >
+                                {submitting ? (
+                                    <span className="w-3 h-3 border-2 animate-spin border-y-foreground dark:border-y-background border-x-transparent rounded-full" />
+                                ) : (
+                                    "Save changes"
+                                )}
+                            </Button>
                         </DialogFooter>
                     </form>
                 </Form>
@@ -137,3 +174,5 @@ export function ChangePassword({ children }: IProps) {
         </Dialog>
     )
 }
+
+export default ChangePassword;

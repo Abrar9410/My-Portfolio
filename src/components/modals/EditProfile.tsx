@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -13,13 +12,15 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useState, type ReactNode } from "react";
+import { useState, useTransition, type ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type { IUser } from "@/types";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { updateUser } from "@/actions/user";
+import { useRouter } from "next/navigation";
 
 
 interface IProps {
@@ -48,38 +49,57 @@ const editProfileSchema = z
             .optional()
     });
 
-export function EditProfile({ children, user }: IProps) {
+const EditProfile = ({ children, user }: IProps) => {
 
+    const {
+        _id,
+        name,
+        email,
+        phone,
+        address
+    } = user;
     const [open, setOpen] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
+    const [isPending, startTransition] = useTransition();
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof editProfileSchema>>({
         resolver: zodResolver(editProfileSchema),
         defaultValues: {
-            name: user.name,
-            email: user.email,
+            name: name,
+            email: email,
+            phone: phone,
+            address: address
         },
     });
 
     const onSubmit = async (data: z.infer<typeof editProfileSchema>) => {
-        const toastId = toast.loading("Saving Info...")
+        const toastId = toast.loading("Saving Info...");
+        setSubmitting(true);
         const userInfo = {
-          userId: user._id,  
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          address: data.address,
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
         };
-    
+
         try {
-        //   const res = await updateUser(userInfo);
-        //   if (res.success) {
-        //     toast.success("Profile Updated Successfully!", {id: toastId});
-        //     setOpen(false);
-        //   };
+            const res = await updateUser(_id, userInfo);
+            if (res.success) {
+                toast.success(res.message, { id: toastId });
+                setOpen(false);
+                startTransition(() => {
+                    router.refresh();
+                });
+            } else {
+                toast.error(res.message || "Sorry! Profile could not be updated. Please try again.", { id: toastId });
+            }
         } catch (error: any) {
-          toast.error(error.data.message, { id: toastId });
+            toast.error(error.data.message, { id: toastId });
+        } finally {
+            setSubmitting(false);
         }
-      };
+    };
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -172,9 +192,19 @@ export function EditProfile({ children, user }: IProps) {
                         </div>
                         <DialogFooter>
                             <DialogClose asChild>
-                                <Button variant="outline" className="cursor-pointer">Cancel</Button>
+                                <Button type="button" variant="outline">Cancel</Button>
                             </DialogClose>
-                            <Button type="submit" className="cursor-pointer text-white">Save changes</Button>
+                            <Button
+                                type="submit"
+                                className="w-32"
+                                disabled={submitting || isPending}
+                            >
+                                {submitting ? (
+                                    <span className="w-3 h-3 border-2 animate-spin border-y-foreground dark:border-y-background border-x-transparent rounded-full" />
+                                ) : (
+                                    "Save changes"
+                                )}
+                            </Button>
                         </DialogFooter>
                     </form>
                 </Form>
@@ -182,3 +212,5 @@ export function EditProfile({ children, user }: IProps) {
         </Dialog>
     )
 }
+
+export default EditProfile;
